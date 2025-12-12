@@ -9,6 +9,7 @@
 package v1beta1
 
 import (
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -47,6 +48,82 @@ func (in *DataPlaneResourceInitParameters) DeepCopyInto(out *DataPlaneResourceIn
 		*out = new(string)
 		**out = **in
 	}
+	if in.CreateHeaders != nil {
+		in, out := &in.CreateHeaders, &out.CreateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.CreateQueryParameters != nil {
+		in, out := &in.CreateQueryParameters, &out.CreateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.DeleteHeaders != nil {
+		in, out := &in.DeleteHeaders, &out.DeleteHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.DeleteQueryParameters != nil {
+		in, out := &in.DeleteQueryParameters, &out.DeleteQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.IgnoreCasing != nil {
 		in, out := &in.IgnoreCasing, &out.IgnoreCasing
 		*out = new(bool)
@@ -78,6 +155,60 @@ func (in *DataPlaneResourceInitParameters) DeepCopyInto(out *DataPlaneResourceIn
 		*out = new(string)
 		**out = **in
 	}
+	if in.ReadHeaders != nil {
+		in, out := &in.ReadHeaders, &out.ReadHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReadQueryParameters != nil {
+		in, out := &in.ReadQueryParameters, &out.ReadQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReplaceTriggersExternalValues != nil {
+		in, out := &in.ReplaceTriggersExternalValues, &out.ReplaceTriggersExternalValues
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ReplaceTriggersRefs != nil {
+		in, out := &in.ReplaceTriggersRefs, &out.ReplaceTriggersRefs
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.ResponseExportValues != nil {
 		in, out := &in.ResponseExportValues, &out.ResponseExportValues
 		*out = make([]*string, len(*in))
@@ -89,10 +220,53 @@ func (in *DataPlaneResourceInitParameters) DeepCopyInto(out *DataPlaneResourceIn
 			}
 		}
 	}
+	if in.Retry != nil {
+		in, out := &in.Retry, &out.Retry
+		*out = new(RetryInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
 		**out = **in
+	}
+	if in.UpdateHeaders != nil {
+		in, out := &in.UpdateHeaders, &out.UpdateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.UpdateQueryParameters != nil {
+		in, out := &in.UpdateQueryParameters, &out.UpdateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -146,6 +320,82 @@ func (in *DataPlaneResourceObservation) DeepCopyInto(out *DataPlaneResourceObser
 		*out = new(string)
 		**out = **in
 	}
+	if in.CreateHeaders != nil {
+		in, out := &in.CreateHeaders, &out.CreateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.CreateQueryParameters != nil {
+		in, out := &in.CreateQueryParameters, &out.CreateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.DeleteHeaders != nil {
+		in, out := &in.DeleteHeaders, &out.DeleteHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.DeleteQueryParameters != nil {
+		in, out := &in.DeleteQueryParameters, &out.DeleteQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -187,6 +437,60 @@ func (in *DataPlaneResourceObservation) DeepCopyInto(out *DataPlaneResourceObser
 		*out = new(string)
 		**out = **in
 	}
+	if in.ReadHeaders != nil {
+		in, out := &in.ReadHeaders, &out.ReadHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReadQueryParameters != nil {
+		in, out := &in.ReadQueryParameters, &out.ReadQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReplaceTriggersExternalValues != nil {
+		in, out := &in.ReplaceTriggersExternalValues, &out.ReplaceTriggersExternalValues
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ReplaceTriggersRefs != nil {
+		in, out := &in.ReplaceTriggersRefs, &out.ReplaceTriggersRefs
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.ResponseExportValues != nil {
 		in, out := &in.ResponseExportValues, &out.ResponseExportValues
 		*out = make([]*string, len(*in))
@@ -198,10 +502,53 @@ func (in *DataPlaneResourceObservation) DeepCopyInto(out *DataPlaneResourceObser
 			}
 		}
 	}
+	if in.Retry != nil {
+		in, out := &in.Retry, &out.Retry
+		*out = new(RetryObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
 		**out = **in
+	}
+	if in.UpdateHeaders != nil {
+		in, out := &in.UpdateHeaders, &out.UpdateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.UpdateQueryParameters != nil {
+		in, out := &in.UpdateQueryParameters, &out.UpdateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -222,6 +569,82 @@ func (in *DataPlaneResourceParameters) DeepCopyInto(out *DataPlaneResourceParame
 		in, out := &in.Body, &out.Body
 		*out = new(string)
 		**out = **in
+	}
+	if in.CreateHeaders != nil {
+		in, out := &in.CreateHeaders, &out.CreateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.CreateQueryParameters != nil {
+		in, out := &in.CreateQueryParameters, &out.CreateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.DeleteHeaders != nil {
+		in, out := &in.DeleteHeaders, &out.DeleteHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.DeleteQueryParameters != nil {
+		in, out := &in.DeleteQueryParameters, &out.DeleteQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.IgnoreCasing != nil {
 		in, out := &in.IgnoreCasing, &out.IgnoreCasing
@@ -254,6 +677,60 @@ func (in *DataPlaneResourceParameters) DeepCopyInto(out *DataPlaneResourceParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.ReadHeaders != nil {
+		in, out := &in.ReadHeaders, &out.ReadHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReadQueryParameters != nil {
+		in, out := &in.ReadQueryParameters, &out.ReadQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReplaceTriggersExternalValues != nil {
+		in, out := &in.ReplaceTriggersExternalValues, &out.ReplaceTriggersExternalValues
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ReplaceTriggersRefs != nil {
+		in, out := &in.ReplaceTriggersRefs, &out.ReplaceTriggersRefs
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.ResponseExportValues != nil {
 		in, out := &in.ResponseExportValues, &out.ResponseExportValues
 		*out = make([]*string, len(*in))
@@ -265,10 +742,53 @@ func (in *DataPlaneResourceParameters) DeepCopyInto(out *DataPlaneResourceParame
 			}
 		}
 	}
+	if in.Retry != nil {
+		in, out := &in.Retry, &out.Retry
+		*out = new(RetryObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
 		**out = **in
+	}
+	if in.UpdateHeaders != nil {
+		in, out := &in.UpdateHeaders, &out.UpdateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.UpdateQueryParameters != nil {
+		in, out := &in.UpdateQueryParameters, &out.UpdateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -487,6 +1007,22 @@ func (in *ResourceActionInitParameters) DeepCopyInto(out *ResourceActionInitPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.Headers != nil {
+		in, out := &in.Headers, &out.Headers
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Locks != nil {
 		in, out := &in.Locks, &out.Locks
 		*out = make([]*string, len(*in))
@@ -503,6 +1039,28 @@ func (in *ResourceActionInitParameters) DeepCopyInto(out *ResourceActionInitPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.QueryParameters != nil {
+		in, out := &in.QueryParameters, &out.QueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ResourceID != nil {
 		in, out := &in.ResourceID, &out.ResourceID
 		*out = new(string)
@@ -518,6 +1076,16 @@ func (in *ResourceActionInitParameters) DeepCopyInto(out *ResourceActionInitPara
 				**out = **in
 			}
 		}
+	}
+	if in.Retry != nil {
+		in, out := &in.Retry, &out.Retry
+		*out = new(ResourceActionRetryInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SensitiveResponseExportValues != nil {
+		in, out := &in.SensitiveResponseExportValues, &out.SensitiveResponseExportValues
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -586,6 +1154,22 @@ func (in *ResourceActionObservation) DeepCopyInto(out *ResourceActionObservation
 		*out = new(string)
 		**out = **in
 	}
+	if in.Headers != nil {
+		in, out := &in.Headers, &out.Headers
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -612,6 +1196,28 @@ func (in *ResourceActionObservation) DeepCopyInto(out *ResourceActionObservation
 		*out = new(string)
 		**out = **in
 	}
+	if in.QueryParameters != nil {
+		in, out := &in.QueryParameters, &out.QueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ResourceID != nil {
 		in, out := &in.ResourceID, &out.ResourceID
 		*out = new(string)
@@ -627,6 +1233,16 @@ func (in *ResourceActionObservation) DeepCopyInto(out *ResourceActionObservation
 				**out = **in
 			}
 		}
+	}
+	if in.Retry != nil {
+		in, out := &in.Retry, &out.Retry
+		*out = new(ResourceActionRetryObservation)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SensitiveResponseExportValues != nil {
+		in, out := &in.SensitiveResponseExportValues, &out.SensitiveResponseExportValues
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -663,6 +1279,22 @@ func (in *ResourceActionParameters) DeepCopyInto(out *ResourceActionParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.Headers != nil {
+		in, out := &in.Headers, &out.Headers
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Locks != nil {
 		in, out := &in.Locks, &out.Locks
 		*out = make([]*string, len(*in))
@@ -679,6 +1311,28 @@ func (in *ResourceActionParameters) DeepCopyInto(out *ResourceActionParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.QueryParameters != nil {
+		in, out := &in.QueryParameters, &out.QueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ResourceID != nil {
 		in, out := &in.ResourceID, &out.ResourceID
 		*out = new(string)
@@ -694,6 +1348,16 @@ func (in *ResourceActionParameters) DeepCopyInto(out *ResourceActionParameters) 
 				**out = **in
 			}
 		}
+	}
+	if in.Retry != nil {
+		in, out := &in.Retry, &out.Retry
+		*out = new(ResourceActionRetryParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SensitiveResponseExportValues != nil {
+		in, out := &in.SensitiveResponseExportValues, &out.SensitiveResponseExportValues
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -713,6 +1377,144 @@ func (in *ResourceActionParameters) DeepCopy() *ResourceActionParameters {
 		return nil
 	}
 	out := new(ResourceActionParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ResourceActionRetryInitParameters) DeepCopyInto(out *ResourceActionRetryInitParameters) {
+	*out = *in
+	if in.ErrorMessageRegex != nil {
+		in, out := &in.ErrorMessageRegex, &out.ErrorMessageRegex
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IntervalSeconds != nil {
+		in, out := &in.IntervalSeconds, &out.IntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.MaxIntervalSeconds != nil {
+		in, out := &in.MaxIntervalSeconds, &out.MaxIntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Multiplier != nil {
+		in, out := &in.Multiplier, &out.Multiplier
+		*out = new(float64)
+		**out = **in
+	}
+	if in.RandomizationFactor != nil {
+		in, out := &in.RandomizationFactor, &out.RandomizationFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ResourceActionRetryInitParameters.
+func (in *ResourceActionRetryInitParameters) DeepCopy() *ResourceActionRetryInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ResourceActionRetryInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ResourceActionRetryObservation) DeepCopyInto(out *ResourceActionRetryObservation) {
+	*out = *in
+	if in.ErrorMessageRegex != nil {
+		in, out := &in.ErrorMessageRegex, &out.ErrorMessageRegex
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IntervalSeconds != nil {
+		in, out := &in.IntervalSeconds, &out.IntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.MaxIntervalSeconds != nil {
+		in, out := &in.MaxIntervalSeconds, &out.MaxIntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Multiplier != nil {
+		in, out := &in.Multiplier, &out.Multiplier
+		*out = new(float64)
+		**out = **in
+	}
+	if in.RandomizationFactor != nil {
+		in, out := &in.RandomizationFactor, &out.RandomizationFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ResourceActionRetryObservation.
+func (in *ResourceActionRetryObservation) DeepCopy() *ResourceActionRetryObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ResourceActionRetryObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ResourceActionRetryParameters) DeepCopyInto(out *ResourceActionRetryParameters) {
+	*out = *in
+	if in.ErrorMessageRegex != nil {
+		in, out := &in.ErrorMessageRegex, &out.ErrorMessageRegex
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IntervalSeconds != nil {
+		in, out := &in.IntervalSeconds, &out.IntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.MaxIntervalSeconds != nil {
+		in, out := &in.MaxIntervalSeconds, &out.MaxIntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Multiplier != nil {
+		in, out := &in.Multiplier, &out.Multiplier
+		*out = new(float64)
+		**out = **in
+	}
+	if in.RandomizationFactor != nil {
+		in, out := &in.RandomizationFactor, &out.RandomizationFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ResourceActionRetryParameters.
+func (in *ResourceActionRetryParameters) DeepCopy() *ResourceActionRetryParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ResourceActionRetryParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -760,6 +1562,82 @@ func (in *ResourceInitParameters) DeepCopyInto(out *ResourceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.CreateHeaders != nil {
+		in, out := &in.CreateHeaders, &out.CreateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.CreateQueryParameters != nil {
+		in, out := &in.CreateQueryParameters, &out.CreateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.DeleteHeaders != nil {
+		in, out := &in.DeleteHeaders, &out.DeleteHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.DeleteQueryParameters != nil {
+		in, out := &in.DeleteQueryParameters, &out.DeleteQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Identity != nil {
 		in, out := &in.Identity, &out.Identity
 		*out = make([]IdentityInitParameters, len(*in))
@@ -785,6 +1663,11 @@ func (in *ResourceInitParameters) DeepCopyInto(out *ResourceInitParameters) {
 	}
 	if in.IgnoreMissingProperty != nil {
 		in, out := &in.IgnoreMissingProperty, &out.IgnoreMissingProperty
+		*out = new(bool)
+		**out = **in
+	}
+	if in.IgnoreNullProperty != nil {
+		in, out := &in.IgnoreNullProperty, &out.IgnoreNullProperty
 		*out = new(bool)
 		**out = **in
 	}
@@ -814,10 +1697,64 @@ func (in *ResourceInitParameters) DeepCopyInto(out *ResourceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ReadHeaders != nil {
+		in, out := &in.ReadHeaders, &out.ReadHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReadQueryParameters != nil {
+		in, out := &in.ReadQueryParameters, &out.ReadQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.RemovingSpecialChars != nil {
 		in, out := &in.RemovingSpecialChars, &out.RemovingSpecialChars
 		*out = new(bool)
 		**out = **in
+	}
+	if in.ReplaceTriggersExternalValues != nil {
+		in, out := &in.ReplaceTriggersExternalValues, &out.ReplaceTriggersExternalValues
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ReplaceTriggersRefs != nil {
+		in, out := &in.ReplaceTriggersRefs, &out.ReplaceTriggersRefs
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.ResponseExportValues != nil {
 		in, out := &in.ResponseExportValues, &out.ResponseExportValues
@@ -830,10 +1767,36 @@ func (in *ResourceInitParameters) DeepCopyInto(out *ResourceInitParameters) {
 			}
 		}
 	}
+	if in.Retry != nil {
+		in, out := &in.Retry, &out.Retry
+		*out = new(ResourceRetryInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SchemaValidationEnabled != nil {
 		in, out := &in.SchemaValidationEnabled, &out.SchemaValidationEnabled
 		*out = new(bool)
 		**out = **in
+	}
+	if in.SensitiveBody != nil {
+		in, out := &in.SensitiveBody, &out.SensitiveBody
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SensitiveBodyVersion != nil {
+		in, out := &in.SensitiveBodyVersion, &out.SensitiveBodyVersion
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
@@ -855,6 +1818,44 @@ func (in *ResourceInitParameters) DeepCopyInto(out *ResourceInitParameters) {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
 		**out = **in
+	}
+	if in.UpdateHeaders != nil {
+		in, out := &in.UpdateHeaders, &out.UpdateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.UpdateQueryParameters != nil {
+		in, out := &in.UpdateQueryParameters, &out.UpdateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -908,6 +1909,82 @@ func (in *ResourceObservation) DeepCopyInto(out *ResourceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.CreateHeaders != nil {
+		in, out := &in.CreateHeaders, &out.CreateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.CreateQueryParameters != nil {
+		in, out := &in.CreateQueryParameters, &out.CreateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.DeleteHeaders != nil {
+		in, out := &in.DeleteHeaders, &out.DeleteHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.DeleteQueryParameters != nil {
+		in, out := &in.DeleteQueryParameters, &out.DeleteQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -938,6 +2015,11 @@ func (in *ResourceObservation) DeepCopyInto(out *ResourceObservation) {
 	}
 	if in.IgnoreMissingProperty != nil {
 		in, out := &in.IgnoreMissingProperty, &out.IgnoreMissingProperty
+		*out = new(bool)
+		**out = **in
+	}
+	if in.IgnoreNullProperty != nil {
+		in, out := &in.IgnoreNullProperty, &out.IgnoreNullProperty
 		*out = new(bool)
 		**out = **in
 	}
@@ -977,6 +2059,60 @@ func (in *ResourceObservation) DeepCopyInto(out *ResourceObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ReadHeaders != nil {
+		in, out := &in.ReadHeaders, &out.ReadHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReadQueryParameters != nil {
+		in, out := &in.ReadQueryParameters, &out.ReadQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReplaceTriggersExternalValues != nil {
+		in, out := &in.ReplaceTriggersExternalValues, &out.ReplaceTriggersExternalValues
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ReplaceTriggersRefs != nil {
+		in, out := &in.ReplaceTriggersRefs, &out.ReplaceTriggersRefs
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.ResponseExportValues != nil {
 		in, out := &in.ResponseExportValues, &out.ResponseExportValues
 		*out = make([]*string, len(*in))
@@ -988,10 +2124,36 @@ func (in *ResourceObservation) DeepCopyInto(out *ResourceObservation) {
 			}
 		}
 	}
+	if in.Retry != nil {
+		in, out := &in.Retry, &out.Retry
+		*out = new(ResourceRetryObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SchemaValidationEnabled != nil {
 		in, out := &in.SchemaValidationEnabled, &out.SchemaValidationEnabled
 		*out = new(bool)
 		**out = **in
+	}
+	if in.SensitiveBody != nil {
+		in, out := &in.SensitiveBody, &out.SensitiveBody
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SensitiveBodyVersion != nil {
+		in, out := &in.SensitiveBodyVersion, &out.SensitiveBodyVersion
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
@@ -1014,6 +2176,44 @@ func (in *ResourceObservation) DeepCopyInto(out *ResourceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.UpdateHeaders != nil {
+		in, out := &in.UpdateHeaders, &out.UpdateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.UpdateQueryParameters != nil {
+		in, out := &in.UpdateQueryParameters, &out.UpdateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ResourceObservation.
@@ -1033,6 +2233,82 @@ func (in *ResourceParameters) DeepCopyInto(out *ResourceParameters) {
 		in, out := &in.Body, &out.Body
 		*out = new(string)
 		**out = **in
+	}
+	if in.CreateHeaders != nil {
+		in, out := &in.CreateHeaders, &out.CreateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.CreateQueryParameters != nil {
+		in, out := &in.CreateQueryParameters, &out.CreateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.DeleteHeaders != nil {
+		in, out := &in.DeleteHeaders, &out.DeleteHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.DeleteQueryParameters != nil {
+		in, out := &in.DeleteQueryParameters, &out.DeleteQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.Identity != nil {
 		in, out := &in.Identity, &out.Identity
@@ -1062,6 +2338,11 @@ func (in *ResourceParameters) DeepCopyInto(out *ResourceParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.IgnoreNullProperty != nil {
+		in, out := &in.IgnoreNullProperty, &out.IgnoreNullProperty
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
@@ -1088,6 +2369,60 @@ func (in *ResourceParameters) DeepCopyInto(out *ResourceParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ReadHeaders != nil {
+		in, out := &in.ReadHeaders, &out.ReadHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReadQueryParameters != nil {
+		in, out := &in.ReadQueryParameters, &out.ReadQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReplaceTriggersExternalValues != nil {
+		in, out := &in.ReplaceTriggersExternalValues, &out.ReplaceTriggersExternalValues
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ReplaceTriggersRefs != nil {
+		in, out := &in.ReplaceTriggersRefs, &out.ReplaceTriggersRefs
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.RemovingSpecialChars != nil {
 		in, out := &in.RemovingSpecialChars, &out.RemovingSpecialChars
 		*out = new(bool)
@@ -1104,10 +2439,36 @@ func (in *ResourceParameters) DeepCopyInto(out *ResourceParameters) {
 			}
 		}
 	}
+	if in.Retry != nil {
+		in, out := &in.Retry, &out.Retry
+		*out = new(ResourceRetryParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SchemaValidationEnabled != nil {
 		in, out := &in.SchemaValidationEnabled, &out.SchemaValidationEnabled
 		*out = new(bool)
 		**out = **in
+	}
+	if in.SensitiveBody != nil {
+		in, out := &in.SensitiveBody, &out.SensitiveBody
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SensitiveBodyVersion != nil {
+		in, out := &in.SensitiveBodyVersion, &out.SensitiveBodyVersion
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
@@ -1130,6 +2491,44 @@ func (in *ResourceParameters) DeepCopyInto(out *ResourceParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.UpdateHeaders != nil {
+		in, out := &in.UpdateHeaders, &out.UpdateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.UpdateQueryParameters != nil {
+		in, out := &in.UpdateQueryParameters, &out.UpdateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ResourceParameters.
@@ -1138,6 +2537,144 @@ func (in *ResourceParameters) DeepCopy() *ResourceParameters {
 		return nil
 	}
 	out := new(ResourceParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ResourceRetryInitParameters) DeepCopyInto(out *ResourceRetryInitParameters) {
+	*out = *in
+	if in.ErrorMessageRegex != nil {
+		in, out := &in.ErrorMessageRegex, &out.ErrorMessageRegex
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IntervalSeconds != nil {
+		in, out := &in.IntervalSeconds, &out.IntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.MaxIntervalSeconds != nil {
+		in, out := &in.MaxIntervalSeconds, &out.MaxIntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Multiplier != nil {
+		in, out := &in.Multiplier, &out.Multiplier
+		*out = new(float64)
+		**out = **in
+	}
+	if in.RandomizationFactor != nil {
+		in, out := &in.RandomizationFactor, &out.RandomizationFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ResourceRetryInitParameters.
+func (in *ResourceRetryInitParameters) DeepCopy() *ResourceRetryInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ResourceRetryInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ResourceRetryObservation) DeepCopyInto(out *ResourceRetryObservation) {
+	*out = *in
+	if in.ErrorMessageRegex != nil {
+		in, out := &in.ErrorMessageRegex, &out.ErrorMessageRegex
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IntervalSeconds != nil {
+		in, out := &in.IntervalSeconds, &out.IntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.MaxIntervalSeconds != nil {
+		in, out := &in.MaxIntervalSeconds, &out.MaxIntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Multiplier != nil {
+		in, out := &in.Multiplier, &out.Multiplier
+		*out = new(float64)
+		**out = **in
+	}
+	if in.RandomizationFactor != nil {
+		in, out := &in.RandomizationFactor, &out.RandomizationFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ResourceRetryObservation.
+func (in *ResourceRetryObservation) DeepCopy() *ResourceRetryObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ResourceRetryObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ResourceRetryParameters) DeepCopyInto(out *ResourceRetryParameters) {
+	*out = *in
+	if in.ErrorMessageRegex != nil {
+		in, out := &in.ErrorMessageRegex, &out.ErrorMessageRegex
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IntervalSeconds != nil {
+		in, out := &in.IntervalSeconds, &out.IntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.MaxIntervalSeconds != nil {
+		in, out := &in.MaxIntervalSeconds, &out.MaxIntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Multiplier != nil {
+		in, out := &in.Multiplier, &out.Multiplier
+		*out = new(float64)
+		**out = **in
+	}
+	if in.RandomizationFactor != nil {
+		in, out := &in.RandomizationFactor, &out.RandomizationFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ResourceRetryParameters.
+func (in *ResourceRetryParameters) DeepCopy() *ResourceRetryParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ResourceRetryParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -1173,6 +2710,144 @@ func (in *ResourceStatus) DeepCopy() *ResourceStatus {
 		return nil
 	}
 	out := new(ResourceStatus)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RetryInitParameters) DeepCopyInto(out *RetryInitParameters) {
+	*out = *in
+	if in.ErrorMessageRegex != nil {
+		in, out := &in.ErrorMessageRegex, &out.ErrorMessageRegex
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IntervalSeconds != nil {
+		in, out := &in.IntervalSeconds, &out.IntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.MaxIntervalSeconds != nil {
+		in, out := &in.MaxIntervalSeconds, &out.MaxIntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Multiplier != nil {
+		in, out := &in.Multiplier, &out.Multiplier
+		*out = new(float64)
+		**out = **in
+	}
+	if in.RandomizationFactor != nil {
+		in, out := &in.RandomizationFactor, &out.RandomizationFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RetryInitParameters.
+func (in *RetryInitParameters) DeepCopy() *RetryInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RetryInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RetryObservation) DeepCopyInto(out *RetryObservation) {
+	*out = *in
+	if in.ErrorMessageRegex != nil {
+		in, out := &in.ErrorMessageRegex, &out.ErrorMessageRegex
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IntervalSeconds != nil {
+		in, out := &in.IntervalSeconds, &out.IntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.MaxIntervalSeconds != nil {
+		in, out := &in.MaxIntervalSeconds, &out.MaxIntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Multiplier != nil {
+		in, out := &in.Multiplier, &out.Multiplier
+		*out = new(float64)
+		**out = **in
+	}
+	if in.RandomizationFactor != nil {
+		in, out := &in.RandomizationFactor, &out.RandomizationFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RetryObservation.
+func (in *RetryObservation) DeepCopy() *RetryObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(RetryObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RetryParameters) DeepCopyInto(out *RetryParameters) {
+	*out = *in
+	if in.ErrorMessageRegex != nil {
+		in, out := &in.ErrorMessageRegex, &out.ErrorMessageRegex
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IntervalSeconds != nil {
+		in, out := &in.IntervalSeconds, &out.IntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.MaxIntervalSeconds != nil {
+		in, out := &in.MaxIntervalSeconds, &out.MaxIntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Multiplier != nil {
+		in, out := &in.Multiplier, &out.Multiplier
+		*out = new(float64)
+		**out = **in
+	}
+	if in.RandomizationFactor != nil {
+		in, out := &in.RandomizationFactor, &out.RandomizationFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RetryParameters.
+func (in *RetryParameters) DeepCopy() *RetryParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RetryParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -1254,6 +2929,44 @@ func (in *UpdateResourceInitParameters) DeepCopyInto(out *UpdateResourceInitPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.ReadHeaders != nil {
+		in, out := &in.ReadHeaders, &out.ReadHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReadQueryParameters != nil {
+		in, out := &in.ReadQueryParameters, &out.ReadQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ResourceID != nil {
 		in, out := &in.ResourceID, &out.ResourceID
 		*out = new(string)
@@ -1270,10 +2983,74 @@ func (in *UpdateResourceInitParameters) DeepCopyInto(out *UpdateResourceInitPara
 			}
 		}
 	}
+	if in.Retry != nil {
+		in, out := &in.Retry, &out.Retry
+		*out = new(UpdateResourceRetryInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SensitiveBody != nil {
+		in, out := &in.SensitiveBody, &out.SensitiveBody
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SensitiveBodyVersion != nil {
+		in, out := &in.SensitiveBodyVersion, &out.SensitiveBodyVersion
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
 		**out = **in
+	}
+	if in.UpdateHeaders != nil {
+		in, out := &in.UpdateHeaders, &out.UpdateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.UpdateQueryParameters != nil {
+		in, out := &in.UpdateQueryParameters, &out.UpdateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -1379,6 +3156,44 @@ func (in *UpdateResourceObservation) DeepCopyInto(out *UpdateResourceObservation
 		*out = new(string)
 		**out = **in
 	}
+	if in.ReadHeaders != nil {
+		in, out := &in.ReadHeaders, &out.ReadHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReadQueryParameters != nil {
+		in, out := &in.ReadQueryParameters, &out.ReadQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ResourceID != nil {
 		in, out := &in.ResourceID, &out.ResourceID
 		*out = new(string)
@@ -1395,10 +3210,74 @@ func (in *UpdateResourceObservation) DeepCopyInto(out *UpdateResourceObservation
 			}
 		}
 	}
+	if in.Retry != nil {
+		in, out := &in.Retry, &out.Retry
+		*out = new(UpdateResourceRetryObservation)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SensitiveBody != nil {
+		in, out := &in.SensitiveBody, &out.SensitiveBody
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SensitiveBodyVersion != nil {
+		in, out := &in.SensitiveBodyVersion, &out.SensitiveBodyVersion
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
 		**out = **in
+	}
+	if in.UpdateHeaders != nil {
+		in, out := &in.UpdateHeaders, &out.UpdateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.UpdateQueryParameters != nil {
+		in, out := &in.UpdateQueryParameters, &out.UpdateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -1462,6 +3341,44 @@ func (in *UpdateResourceParameters) DeepCopyInto(out *UpdateResourceParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.ReadHeaders != nil {
+		in, out := &in.ReadHeaders, &out.ReadHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ReadQueryParameters != nil {
+		in, out := &in.ReadQueryParameters, &out.ReadQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ResourceID != nil {
 		in, out := &in.ResourceID, &out.ResourceID
 		*out = new(string)
@@ -1478,10 +3395,74 @@ func (in *UpdateResourceParameters) DeepCopyInto(out *UpdateResourceParameters) 
 			}
 		}
 	}
+	if in.Retry != nil {
+		in, out := &in.Retry, &out.Retry
+		*out = new(UpdateResourceRetryParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SensitiveBody != nil {
+		in, out := &in.SensitiveBody, &out.SensitiveBody
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SensitiveBodyVersion != nil {
+		in, out := &in.SensitiveBodyVersion, &out.SensitiveBodyVersion
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
 		**out = **in
+	}
+	if in.UpdateHeaders != nil {
+		in, out := &in.UpdateHeaders, &out.UpdateHeaders
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.UpdateQueryParameters != nil {
+		in, out := &in.UpdateQueryParameters, &out.UpdateQueryParameters
+		*out = make(map[string][]*string, len(*in))
+		for key, val := range *in {
+			var outVal []*string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]*string, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(string)
+						**out = **in
+					}
+				}
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -1491,6 +3472,144 @@ func (in *UpdateResourceParameters) DeepCopy() *UpdateResourceParameters {
 		return nil
 	}
 	out := new(UpdateResourceParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *UpdateResourceRetryInitParameters) DeepCopyInto(out *UpdateResourceRetryInitParameters) {
+	*out = *in
+	if in.ErrorMessageRegex != nil {
+		in, out := &in.ErrorMessageRegex, &out.ErrorMessageRegex
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IntervalSeconds != nil {
+		in, out := &in.IntervalSeconds, &out.IntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.MaxIntervalSeconds != nil {
+		in, out := &in.MaxIntervalSeconds, &out.MaxIntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Multiplier != nil {
+		in, out := &in.Multiplier, &out.Multiplier
+		*out = new(float64)
+		**out = **in
+	}
+	if in.RandomizationFactor != nil {
+		in, out := &in.RandomizationFactor, &out.RandomizationFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new UpdateResourceRetryInitParameters.
+func (in *UpdateResourceRetryInitParameters) DeepCopy() *UpdateResourceRetryInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(UpdateResourceRetryInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *UpdateResourceRetryObservation) DeepCopyInto(out *UpdateResourceRetryObservation) {
+	*out = *in
+	if in.ErrorMessageRegex != nil {
+		in, out := &in.ErrorMessageRegex, &out.ErrorMessageRegex
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IntervalSeconds != nil {
+		in, out := &in.IntervalSeconds, &out.IntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.MaxIntervalSeconds != nil {
+		in, out := &in.MaxIntervalSeconds, &out.MaxIntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Multiplier != nil {
+		in, out := &in.Multiplier, &out.Multiplier
+		*out = new(float64)
+		**out = **in
+	}
+	if in.RandomizationFactor != nil {
+		in, out := &in.RandomizationFactor, &out.RandomizationFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new UpdateResourceRetryObservation.
+func (in *UpdateResourceRetryObservation) DeepCopy() *UpdateResourceRetryObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(UpdateResourceRetryObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *UpdateResourceRetryParameters) DeepCopyInto(out *UpdateResourceRetryParameters) {
+	*out = *in
+	if in.ErrorMessageRegex != nil {
+		in, out := &in.ErrorMessageRegex, &out.ErrorMessageRegex
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.IntervalSeconds != nil {
+		in, out := &in.IntervalSeconds, &out.IntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.MaxIntervalSeconds != nil {
+		in, out := &in.MaxIntervalSeconds, &out.MaxIntervalSeconds
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Multiplier != nil {
+		in, out := &in.Multiplier, &out.Multiplier
+		*out = new(float64)
+		**out = **in
+	}
+	if in.RandomizationFactor != nil {
+		in, out := &in.RandomizationFactor, &out.RandomizationFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new UpdateResourceRetryParameters.
+func (in *UpdateResourceRetryParameters) DeepCopy() *UpdateResourceRetryParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(UpdateResourceRetryParameters)
 	in.DeepCopyInto(out)
 	return out
 }

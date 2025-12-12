@@ -11,6 +11,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	apiextv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
 type IdentityInitParameters struct {
@@ -53,6 +54,24 @@ type ResourceInitParameters struct {
 	// A JSON object that contains the request body used to create and update azure resource.
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
+	// (Map of String) A mapping of headers to be sent with the create request.
+	// A mapping of headers to be sent with the create request.
+	// +mapType=granular
+	CreateHeaders map[string]*string `json:"createHeaders,omitempty" tf:"create_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the create request.
+	// A mapping of query parameters to be sent with the create request.
+	CreateQueryParameters map[string][]*string `json:"createQueryParameters,omitempty" tf:"create_query_parameters,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the delete request.
+	// A mapping of headers to be sent with the delete request.
+	// +mapType=granular
+	DeleteHeaders map[string]*string `json:"deleteHeaders,omitempty" tf:"delete_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the delete request.
+	// A mapping of query parameters to be sent with the delete request.
+	DeleteQueryParameters map[string][]*string `json:"deleteQueryParameters,omitempty" tf:"delete_query_parameters,omitempty"`
+
 	// A identity block as defined below.
 	Identity []IdentityInitParameters `json:"identity,omitempty" tf:"identity,omitempty"`
 
@@ -64,6 +83,12 @@ type ResourceInitParameters struct {
 
 	// Whether ignore not returned properties like credentials in body to suppress plan-diff. Defaults to true.
 	IgnoreMissingProperty *bool `json:"ignoreMissingProperty,omitempty" tf:"ignore_missing_property,omitempty"`
+
+	// (Boolean) When set to true, the provider will ignore properties whose values are null in the body.
+	// These properties will not be included in the request body sent to the API, and the difference will not be shown in the plan output. Defaults to false.
+	// When set to `true`, the provider will ignore properties whose values are `null` in the `body`.
+	// These properties will not be included in the request body sent to the API, and the difference will not be shown in the plan output. Defaults to `false`.
+	IgnoreNullProperty *bool `json:"ignoreNullProperty,omitempty" tf:"ignore_null_property,omitempty"`
 
 	// The Azure Region where the azure resource should exist.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -77,16 +102,69 @@ type ResourceInitParameters struct {
 	// The ID of the azure resource in which this resource is created. Changing this forces a new resource to be created. It supports different kinds of deployment scope for top level resources:
 	ParentID *string `json:"parentId,omitempty" tf:"parent_id,omitempty"`
 
+	// (Map of String) A mapping of headers to be sent with the read request.
+	// A mapping of headers to be sent with the read request.
+	// +mapType=granular
+	ReadHeaders map[string]*string `json:"readHeaders,omitempty" tf:"read_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the read request.
+	// A mapping of query parameters to be sent with the read request.
+	ReadQueryParameters map[string][]*string `json:"readQueryParameters,omitempty" tf:"read_query_parameters,omitempty"`
+
 	// Whether to remove special characters in resource name. Defaults to false.
 	RemovingSpecialChars *bool `json:"removingSpecialChars,omitempty" tf:"removing_special_chars,omitempty"`
+
+	// (Dynamic) Will trigger a replace of the resource when the value changes and is not null. This can be used by practitioners to force a replace of the resource when certain values change, e.g. changing the SKU of a virtual machine based on the value of variables or locals. The value is a dynamic, so practitioners can compose the input however they wish. For a "break glass" set the value to null to prevent the plan modifier taking effect.
+	// If you have null values that you do want to be tracked as affecting the resource replacement, include these inside an object.
+	// Advanced use cases are possible and resource replacement can be triggered by values external to the resource, for example when a dependent resource changes.
+	// Will trigger a replace of the resource when the value changes and is not `null`. This can be used by practitioners to force a replace of the resource when certain values change, e.g. changing the SKU of a virtual machine based on the value of variables or locals. The value is a `dynamic`, so practitioners can compose the input however they wish. For a "break glass" set the value to `null` to prevent the plan modifier taking effect.
+	// If you have `null` values that you do want to be tracked as affecting the resource replacement, include these inside an object.
+	// Advanced use cases are possible and resource replacement can be triggered by values external to the resource, for example when a dependent resource changes.
+	//
+	// e.g. to replace a resource when either the SKU or os_type attributes change:
+	//
+	// ```hcl
+	// resource "azapi_resource" "example" {
+	// name      = var.name
+	// type      = "Microsoft.Network/publicIPAddresses@2023-11-01"
+	// parent_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example"
+	// body = {
+	// properties = {
+	// sku   = var.sku
+	// zones = var.zones
+	// }
+	// }
+	//
+	// replace_triggers_external_values = [
+	// var.sku,
+	// var.zones,
+	// ]
+	// }
+	// ```
+	ReplaceTriggersExternalValues *apiextv1.JSON `json:"replaceTriggersExternalValues,omitempty" tf:"replace_triggers_external_values,omitempty"`
+
+	// When the values at these paths change, the resource will be replaced. When the values at these paths change, the resource will be replaced.
+	ReplaceTriggersRefs []*string `json:"replaceTriggersRefs,omitempty" tf:"replace_triggers_refs,omitempty"`
 
 	// A list of path that needs to be exported from response body.
 	// Setting it to ["*"] will export the full response body.
 	// Here's an example. If it sets to ["properties.loginServer", "properties.policies.quarantinePolicy.status"], it will set the following json to computed property output.
 	ResponseExportValues []*string `json:"responseExportValues,omitempty" tf:"response_export_values,omitempty"`
 
+	// (Attributes) The retry object supports the following attributes: (see below for nested schema)
+	Retry *ResourceRetryInitParameters `json:"retry,omitempty" tf:"retry,omitempty"`
+
 	// Whether enabled the validation on type and body with embedded schema. Defaults to true.
 	SchemaValidationEnabled *bool `json:"schemaValidationEnabled,omitempty" tf:"schema_validation_enabled,omitempty"`
+
+	// only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+	// A dynamic attribute that contains the write-only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+	SensitiveBody *apiextv1.JSON `json:"sensitiveBody,omitempty" tf:"sensitive_body,omitempty"`
+
+	// (Map of String) A map where the key is the path to the property in sensitive_body and the value is the version of the property. The key is a string in the format of path.to.property[index].subproperty, where index is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+	// A map where the key is the path to the property in `sensitive_body` and the value is the version of the property. The key is a string in the format of `path.to.property[index].subproperty`, where `index` is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+	// +mapType=granular
+	SensitiveBodyVersion map[string]*string `json:"sensitiveBodyVersion,omitempty" tf:"sensitive_body_version,omitempty"`
 
 	// A mapping of tags which should be assigned to the azure resource.
 	// +mapType=granular
@@ -95,12 +173,39 @@ type ResourceInitParameters struct {
 	// It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
 	// <api-version> is version of the API used to manage this azure resource.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the update request.
+	// A mapping of headers to be sent with the update request.
+	// +mapType=granular
+	UpdateHeaders map[string]*string `json:"updateHeaders,omitempty" tf:"update_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the update request.
+	// A mapping of query parameters to be sent with the update request.
+	UpdateQueryParameters map[string][]*string `json:"updateQueryParameters,omitempty" tf:"update_query_parameters,omitempty"`
 }
 
 type ResourceObservation struct {
 
 	// A JSON object that contains the request body used to create and update azure resource.
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the create request.
+	// A mapping of headers to be sent with the create request.
+	// +mapType=granular
+	CreateHeaders map[string]*string `json:"createHeaders,omitempty" tf:"create_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the create request.
+	// A mapping of query parameters to be sent with the create request.
+	CreateQueryParameters map[string][]*string `json:"createQueryParameters,omitempty" tf:"create_query_parameters,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the delete request.
+	// A mapping of headers to be sent with the delete request.
+	// +mapType=granular
+	DeleteHeaders map[string]*string `json:"deleteHeaders,omitempty" tf:"delete_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the delete request.
+	// A mapping of query parameters to be sent with the delete request.
+	DeleteQueryParameters map[string][]*string `json:"deleteQueryParameters,omitempty" tf:"delete_query_parameters,omitempty"`
 
 	// The ID of the azure resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -116,6 +221,12 @@ type ResourceObservation struct {
 
 	// Whether ignore not returned properties like credentials in body to suppress plan-diff. Defaults to true.
 	IgnoreMissingProperty *bool `json:"ignoreMissingProperty,omitempty" tf:"ignore_missing_property,omitempty"`
+
+	// (Boolean) When set to true, the provider will ignore properties whose values are null in the body.
+	// These properties will not be included in the request body sent to the API, and the difference will not be shown in the plan output. Defaults to false.
+	// When set to `true`, the provider will ignore properties whose values are `null` in the `body`.
+	// These properties will not be included in the request body sent to the API, and the difference will not be shown in the plan output. Defaults to `false`.
+	IgnoreNullProperty *bool `json:"ignoreNullProperty,omitempty" tf:"ignore_null_property,omitempty"`
 
 	// The Azure Region where the azure resource should exist.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -135,13 +246,66 @@ type ResourceObservation struct {
 	// Whether to remove special characters in resource name. Defaults to false.
 	RemovingSpecialChars *bool `json:"removingSpecialChars,omitempty" tf:"removing_special_chars,omitempty"`
 
+	// (Map of String) A mapping of headers to be sent with the read request.
+	// A mapping of headers to be sent with the read request.
+	// +mapType=granular
+	ReadHeaders map[string]*string `json:"readHeaders,omitempty" tf:"read_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the read request.
+	// A mapping of query parameters to be sent with the read request.
+	ReadQueryParameters map[string][]*string `json:"readQueryParameters,omitempty" tf:"read_query_parameters,omitempty"`
+
+	// (Dynamic) Will trigger a replace of the resource when the value changes and is not null. This can be used by practitioners to force a replace of the resource when certain values change, e.g. changing the SKU of a virtual machine based on the value of variables or locals. The value is a dynamic, so practitioners can compose the input however they wish. For a "break glass" set the value to null to prevent the plan modifier taking effect.
+	// If you have null values that you do want to be tracked as affecting the resource replacement, include these inside an object.
+	// Advanced use cases are possible and resource replacement can be triggered by values external to the resource, for example when a dependent resource changes.
+	// Will trigger a replace of the resource when the value changes and is not `null`. This can be used by practitioners to force a replace of the resource when certain values change, e.g. changing the SKU of a virtual machine based on the value of variables or locals. The value is a `dynamic`, so practitioners can compose the input however they wish. For a "break glass" set the value to `null` to prevent the plan modifier taking effect.
+	// If you have `null` values that you do want to be tracked as affecting the resource replacement, include these inside an object.
+	// Advanced use cases are possible and resource replacement can be triggered by values external to the resource, for example when a dependent resource changes.
+	//
+	// e.g. to replace a resource when either the SKU or os_type attributes change:
+	//
+	// ```hcl
+	// resource "azapi_resource" "example" {
+	// name      = var.name
+	// type      = "Microsoft.Network/publicIPAddresses@2023-11-01"
+	// parent_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example"
+	// body = {
+	// properties = {
+	// sku   = var.sku
+	// zones = var.zones
+	// }
+	// }
+	//
+	// replace_triggers_external_values = [
+	// var.sku,
+	// var.zones,
+	// ]
+	// }
+	// ```
+	ReplaceTriggersExternalValues *apiextv1.JSON `json:"replaceTriggersExternalValues,omitempty" tf:"replace_triggers_external_values,omitempty"`
+
+	// When the values at these paths change, the resource will be replaced. When the values at these paths change, the resource will be replaced.
+	ReplaceTriggersRefs []*string `json:"replaceTriggersRefs,omitempty" tf:"replace_triggers_refs,omitempty"`
+
 	// A list of path that needs to be exported from response body.
 	// Setting it to ["*"] will export the full response body.
 	// Here's an example. If it sets to ["properties.loginServer", "properties.policies.quarantinePolicy.status"], it will set the following json to computed property output.
 	ResponseExportValues []*string `json:"responseExportValues,omitempty" tf:"response_export_values,omitempty"`
 
+	// (Attributes) The retry object supports the following attributes: (see below for nested schema)
+	Retry *ResourceRetryObservation `json:"retry,omitempty" tf:"retry,omitempty"`
+
 	// Whether enabled the validation on type and body with embedded schema. Defaults to true.
 	SchemaValidationEnabled *bool `json:"schemaValidationEnabled,omitempty" tf:"schema_validation_enabled,omitempty"`
+
+	// only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+	// A dynamic attribute that contains the write-only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+	SensitiveBody *apiextv1.JSON `json:"sensitiveBody,omitempty" tf:"sensitive_body,omitempty"`
+
+	// (Map of String) A map where the key is the path to the property in sensitive_body and the value is the version of the property. The key is a string in the format of path.to.property[index].subproperty, where index is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+	// A map where the key is the path to the property in `sensitive_body` and the value is the version of the property. The key is a string in the format of `path.to.property[index].subproperty`, where `index` is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+	// +mapType=granular
+	SensitiveBodyVersion map[string]*string `json:"sensitiveBodyVersion,omitempty" tf:"sensitive_body_version,omitempty"`
 
 	// A mapping of tags which should be assigned to the azure resource.
 	// +mapType=granular
@@ -150,6 +314,15 @@ type ResourceObservation struct {
 	// It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
 	// <api-version> is version of the API used to manage this azure resource.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the update request.
+	// A mapping of headers to be sent with the update request.
+	// +mapType=granular
+	UpdateHeaders map[string]*string `json:"updateHeaders,omitempty" tf:"update_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the update request.
+	// A mapping of query parameters to be sent with the update request.
+	UpdateQueryParameters map[string][]*string `json:"updateQueryParameters,omitempty" tf:"update_query_parameters,omitempty"`
 }
 
 type ResourceParameters struct {
@@ -157,6 +330,28 @@ type ResourceParameters struct {
 	// A JSON object that contains the request body used to create and update azure resource.
 	// +kubebuilder:validation:Optional
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the create request.
+	// A mapping of headers to be sent with the create request.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	CreateHeaders map[string]*string `json:"createHeaders,omitempty" tf:"create_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the create request.
+	// A mapping of query parameters to be sent with the create request.
+	// +kubebuilder:validation:Optional
+	CreateQueryParameters map[string][]*string `json:"createQueryParameters,omitempty" tf:"create_query_parameters,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the delete request.
+	// A mapping of headers to be sent with the delete request.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	DeleteHeaders map[string]*string `json:"deleteHeaders,omitempty" tf:"delete_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the delete request.
+	// A mapping of query parameters to be sent with the delete request.
+	// +kubebuilder:validation:Optional
+	DeleteQueryParameters map[string][]*string `json:"deleteQueryParameters,omitempty" tf:"delete_query_parameters,omitempty"`
 
 	// A identity block as defined below.
 	// +kubebuilder:validation:Optional
@@ -174,6 +369,13 @@ type ResourceParameters struct {
 	// +kubebuilder:validation:Optional
 	IgnoreMissingProperty *bool `json:"ignoreMissingProperty,omitempty" tf:"ignore_missing_property,omitempty"`
 
+	// (Boolean) When set to true, the provider will ignore properties whose values are null in the body.
+	// These properties will not be included in the request body sent to the API, and the difference will not be shown in the plan output. Defaults to false.
+	// When set to `true`, the provider will ignore properties whose values are `null` in the `body`.
+	// These properties will not be included in the request body sent to the API, and the difference will not be shown in the plan output. Defaults to `false`.
+	// +kubebuilder:validation:Optional
+	IgnoreNullProperty *bool `json:"ignoreNullProperty,omitempty" tf:"ignore_null_property,omitempty"`
+
 	// The Azure Region where the azure resource should exist.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -190,6 +392,51 @@ type ResourceParameters struct {
 	// +kubebuilder:validation:Optional
 	ParentID *string `json:"parentId,omitempty" tf:"parent_id,omitempty"`
 
+	// (Map of String) A mapping of headers to be sent with the read request.
+	// A mapping of headers to be sent with the read request.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ReadHeaders map[string]*string `json:"readHeaders,omitempty" tf:"read_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the read request.
+	// A mapping of query parameters to be sent with the read request.
+	// +kubebuilder:validation:Optional
+	ReadQueryParameters map[string][]*string `json:"readQueryParameters,omitempty" tf:"read_query_parameters,omitempty"`
+
+	// (Dynamic) Will trigger a replace of the resource when the value changes and is not null. This can be used by practitioners to force a replace of the resource when certain values change, e.g. changing the SKU of a virtual machine based on the value of variables or locals. The value is a dynamic, so practitioners can compose the input however they wish. For a "break glass" set the value to null to prevent the plan modifier taking effect.
+	// If you have null values that you do want to be tracked as affecting the resource replacement, include these inside an object.
+	// Advanced use cases are possible and resource replacement can be triggered by values external to the resource, for example when a dependent resource changes.
+	// Will trigger a replace of the resource when the value changes and is not `null`. This can be used by practitioners to force a replace of the resource when certain values change, e.g. changing the SKU of a virtual machine based on the value of variables or locals. The value is a `dynamic`, so practitioners can compose the input however they wish. For a "break glass" set the value to `null` to prevent the plan modifier taking effect.
+	// If you have `null` values that you do want to be tracked as affecting the resource replacement, include these inside an object.
+	// Advanced use cases are possible and resource replacement can be triggered by values external to the resource, for example when a dependent resource changes.
+	//
+	// e.g. to replace a resource when either the SKU or os_type attributes change:
+	//
+	// ```hcl
+	// resource "azapi_resource" "example" {
+	// name      = var.name
+	// type      = "Microsoft.Network/publicIPAddresses@2023-11-01"
+	// parent_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example"
+	// body = {
+	// properties = {
+	// sku   = var.sku
+	// zones = var.zones
+	// }
+	// }
+	//
+	// replace_triggers_external_values = [
+	// var.sku,
+	// var.zones,
+	// ]
+	// }
+	// ```
+	// +kubebuilder:validation:Optional
+	ReplaceTriggersExternalValues *apiextv1.JSON `json:"replaceTriggersExternalValues,omitempty" tf:"replace_triggers_external_values,omitempty"`
+
+	// When the values at these paths change, the resource will be replaced. When the values at these paths change, the resource will be replaced.
+	// +kubebuilder:validation:Optional
+	ReplaceTriggersRefs []*string `json:"replaceTriggersRefs,omitempty" tf:"replace_triggers_refs,omitempty"`
+
 	// Whether to remove special characters in resource name. Defaults to false.
 	// +kubebuilder:validation:Optional
 	RemovingSpecialChars *bool `json:"removingSpecialChars,omitempty" tf:"removing_special_chars,omitempty"`
@@ -200,9 +447,24 @@ type ResourceParameters struct {
 	// +kubebuilder:validation:Optional
 	ResponseExportValues []*string `json:"responseExportValues,omitempty" tf:"response_export_values,omitempty"`
 
+	// (Attributes) The retry object supports the following attributes: (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	Retry *ResourceRetryParameters `json:"retry,omitempty" tf:"retry,omitempty"`
+
 	// Whether enabled the validation on type and body with embedded schema. Defaults to true.
 	// +kubebuilder:validation:Optional
 	SchemaValidationEnabled *bool `json:"schemaValidationEnabled,omitempty" tf:"schema_validation_enabled,omitempty"`
+
+	// only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+	// A dynamic attribute that contains the write-only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+	// +kubebuilder:validation:Optional
+	SensitiveBody *apiextv1.JSON `json:"sensitiveBody,omitempty" tf:"sensitive_body,omitempty"`
+
+	// (Map of String) A map where the key is the path to the property in sensitive_body and the value is the version of the property. The key is a string in the format of path.to.property[index].subproperty, where index is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+	// A map where the key is the path to the property in `sensitive_body` and the value is the version of the property. The key is a string in the format of `path.to.property[index].subproperty`, where `index` is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	SensitiveBodyVersion map[string]*string `json:"sensitiveBodyVersion,omitempty" tf:"sensitive_body_version,omitempty"`
 
 	// A mapping of tags which should be assigned to the azure resource.
 	// +kubebuilder:validation:Optional
@@ -213,6 +475,91 @@ type ResourceParameters struct {
 	// <api-version> is version of the API used to manage this azure resource.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the update request.
+	// A mapping of headers to be sent with the update request.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	UpdateHeaders map[string]*string `json:"updateHeaders,omitempty" tf:"update_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the update request.
+	// A mapping of query parameters to be sent with the update request.
+	// +kubebuilder:validation:Optional
+	UpdateQueryParameters map[string][]*string `json:"updateQueryParameters,omitempty" tf:"update_query_parameters,omitempty"`
+}
+
+type ResourceRetryInitParameters struct {
+
+	// (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	ErrorMessageRegex []*string `json:"errorMessageRegex,omitempty" tf:"error_message_regex,omitempty"`
+
+	// (Number) The base number of seconds to wait between retries. Default is 10.
+	// The base number of seconds to wait between retries. Default is `10`.
+	IntervalSeconds *float64 `json:"intervalSeconds,omitempty" tf:"interval_seconds,omitempty"`
+
+	// (Number) The maximum number of seconds to wait between retries. Default is 180.
+	// The maximum number of seconds to wait between retries. Default is `180`.
+	MaxIntervalSeconds *float64 `json:"maxIntervalSeconds,omitempty" tf:"max_interval_seconds,omitempty"`
+
+	// (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+	// The multiplier to apply to the interval between retries. Default is `1.5`.
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+	// The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+	RandomizationFactor *float64 `json:"randomizationFactor,omitempty" tf:"randomization_factor,omitempty"`
+}
+
+type ResourceRetryObservation struct {
+
+	// (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	ErrorMessageRegex []*string `json:"errorMessageRegex,omitempty" tf:"error_message_regex,omitempty"`
+
+	// (Number) The base number of seconds to wait between retries. Default is 10.
+	// The base number of seconds to wait between retries. Default is `10`.
+	IntervalSeconds *float64 `json:"intervalSeconds,omitempty" tf:"interval_seconds,omitempty"`
+
+	// (Number) The maximum number of seconds to wait between retries. Default is 180.
+	// The maximum number of seconds to wait between retries. Default is `180`.
+	MaxIntervalSeconds *float64 `json:"maxIntervalSeconds,omitempty" tf:"max_interval_seconds,omitempty"`
+
+	// (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+	// The multiplier to apply to the interval between retries. Default is `1.5`.
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+	// The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+	RandomizationFactor *float64 `json:"randomizationFactor,omitempty" tf:"randomization_factor,omitempty"`
+}
+
+type ResourceRetryParameters struct {
+
+	// (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// +kubebuilder:validation:Optional
+	ErrorMessageRegex []*string `json:"errorMessageRegex" tf:"error_message_regex,omitempty"`
+
+	// (Number) The base number of seconds to wait between retries. Default is 10.
+	// The base number of seconds to wait between retries. Default is `10`.
+	// +kubebuilder:validation:Optional
+	IntervalSeconds *float64 `json:"intervalSeconds,omitempty" tf:"interval_seconds,omitempty"`
+
+	// (Number) The maximum number of seconds to wait between retries. Default is 180.
+	// The maximum number of seconds to wait between retries. Default is `180`.
+	// +kubebuilder:validation:Optional
+	MaxIntervalSeconds *float64 `json:"maxIntervalSeconds,omitempty" tf:"max_interval_seconds,omitempty"`
+
+	// (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+	// The multiplier to apply to the interval between retries. Default is `1.5`.
+	// +kubebuilder:validation:Optional
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+	// The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+	// +kubebuilder:validation:Optional
+	RandomizationFactor *float64 `json:"randomizationFactor,omitempty" tf:"randomization_factor,omitempty"`
 }
 
 // ResourceSpec defines the desired state of Resource

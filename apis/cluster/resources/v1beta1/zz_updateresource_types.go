@@ -11,6 +11,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	apiextv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
 type UpdateResourceInitParameters struct {
@@ -36,6 +37,15 @@ type UpdateResourceInitParameters struct {
 	// The ID of the azure resource in which this resource is created. Changing this forces a new resource to be created. It supports different kinds of deployment scope for top level resources:
 	ParentID *string `json:"parentId,omitempty" tf:"parent_id,omitempty"`
 
+	// (Map of String) A mapping of headers to be sent with the read request.
+	// A mapping of headers to be sent with the read request.
+	// +mapType=granular
+	ReadHeaders map[string]*string `json:"readHeaders,omitempty" tf:"read_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the read request.
+	// A mapping of query parameters to be sent with the read request.
+	ReadQueryParameters map[string][]*string `json:"readQueryParameters,omitempty" tf:"read_query_parameters,omitempty"`
+
 	// The ID of an existing azure source. Changing this forces a new azure resource to be created.
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
@@ -44,9 +54,30 @@ type UpdateResourceInitParameters struct {
 	// Here's an example. If it sets to ["properties.loginServer", "properties.policies.quarantinePolicy.status"], it will set the following json to computed property output.
 	ResponseExportValues []*string `json:"responseExportValues,omitempty" tf:"response_export_values,omitempty"`
 
+	// (Attributes) The retry object supports the following attributes: (see below for nested schema)
+	Retry *UpdateResourceRetryInitParameters `json:"retry,omitempty" tf:"retry,omitempty"`
+
+	// only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+	// A dynamic attribute that contains the write-only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+	SensitiveBody *apiextv1.JSON `json:"sensitiveBody,omitempty" tf:"sensitive_body,omitempty"`
+
+	// (Map of String) A map where the key is the path to the property in sensitive_body and the value is the version of the property. The key is a string in the format of path.to.property[index].subproperty, where index is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+	// A map where the key is the path to the property in `sensitive_body` and the value is the version of the property. The key is a string in the format of `path.to.property[index].subproperty`, where `index` is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+	// +mapType=granular
+	SensitiveBodyVersion map[string]*string `json:"sensitiveBodyVersion,omitempty" tf:"sensitive_body_version,omitempty"`
+
 	// It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
 	// <api-version> is version of the API used to manage this azure resource.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the update request.
+	// A mapping of headers to be sent with the update request.
+	// +mapType=granular
+	UpdateHeaders map[string]*string `json:"updateHeaders,omitempty" tf:"update_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the update request.
+	// A mapping of query parameters to be sent with the update request.
+	UpdateQueryParameters map[string][]*string `json:"updateQueryParameters,omitempty" tf:"update_query_parameters,omitempty"`
 }
 
 type UpdateResourceObservation struct {
@@ -78,6 +109,15 @@ type UpdateResourceObservation struct {
 	// The ID of the azure resource in which this resource is created. Changing this forces a new resource to be created. It supports different kinds of deployment scope for top level resources:
 	ParentID *string `json:"parentId,omitempty" tf:"parent_id,omitempty"`
 
+	// (Map of String) A mapping of headers to be sent with the read request.
+	// A mapping of headers to be sent with the read request.
+	// +mapType=granular
+	ReadHeaders map[string]*string `json:"readHeaders,omitempty" tf:"read_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the read request.
+	// A mapping of query parameters to be sent with the read request.
+	ReadQueryParameters map[string][]*string `json:"readQueryParameters,omitempty" tf:"read_query_parameters,omitempty"`
+
 	// The ID of an existing azure source. Changing this forces a new azure resource to be created.
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
@@ -86,9 +126,30 @@ type UpdateResourceObservation struct {
 	// Here's an example. If it sets to ["properties.loginServer", "properties.policies.quarantinePolicy.status"], it will set the following json to computed property output.
 	ResponseExportValues []*string `json:"responseExportValues,omitempty" tf:"response_export_values,omitempty"`
 
+	// (Attributes) The retry object supports the following attributes: (see below for nested schema)
+	Retry *UpdateResourceRetryObservation `json:"retry,omitempty" tf:"retry,omitempty"`
+
+	// only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+	// A dynamic attribute that contains the write-only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+	SensitiveBody *apiextv1.JSON `json:"sensitiveBody,omitempty" tf:"sensitive_body,omitempty"`
+
+	// (Map of String) A map where the key is the path to the property in sensitive_body and the value is the version of the property. The key is a string in the format of path.to.property[index].subproperty, where index is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+	// A map where the key is the path to the property in `sensitive_body` and the value is the version of the property. The key is a string in the format of `path.to.property[index].subproperty`, where `index` is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+	// +mapType=granular
+	SensitiveBodyVersion map[string]*string `json:"sensitiveBodyVersion,omitempty" tf:"sensitive_body_version,omitempty"`
+
 	// It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
 	// <api-version> is version of the API used to manage this azure resource.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the update request.
+	// A mapping of headers to be sent with the update request.
+	// +mapType=granular
+	UpdateHeaders map[string]*string `json:"updateHeaders,omitempty" tf:"update_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the update request.
+	// A mapping of query parameters to be sent with the update request.
+	UpdateQueryParameters map[string][]*string `json:"updateQueryParameters,omitempty" tf:"update_query_parameters,omitempty"`
 }
 
 type UpdateResourceParameters struct {
@@ -121,6 +182,17 @@ type UpdateResourceParameters struct {
 	// +kubebuilder:validation:Optional
 	ParentID *string `json:"parentId,omitempty" tf:"parent_id,omitempty"`
 
+	// (Map of String) A mapping of headers to be sent with the read request.
+	// A mapping of headers to be sent with the read request.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ReadHeaders map[string]*string `json:"readHeaders,omitempty" tf:"read_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the read request.
+	// A mapping of query parameters to be sent with the read request.
+	// +kubebuilder:validation:Optional
+	ReadQueryParameters map[string][]*string `json:"readQueryParameters,omitempty" tf:"read_query_parameters,omitempty"`
+
 	// The ID of an existing azure source. Changing this forces a new azure resource to be created.
 	// +kubebuilder:validation:Optional
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
@@ -131,10 +203,110 @@ type UpdateResourceParameters struct {
 	// +kubebuilder:validation:Optional
 	ResponseExportValues []*string `json:"responseExportValues,omitempty" tf:"response_export_values,omitempty"`
 
+	// (Attributes) The retry object supports the following attributes: (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	Retry *UpdateResourceRetryParameters `json:"retry,omitempty" tf:"retry,omitempty"`
+
+	// only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+	// A dynamic attribute that contains the write-only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+	// +kubebuilder:validation:Optional
+	SensitiveBody *apiextv1.JSON `json:"sensitiveBody,omitempty" tf:"sensitive_body,omitempty"`
+
+	// (Map of String) A map where the key is the path to the property in sensitive_body and the value is the version of the property. The key is a string in the format of path.to.property[index].subproperty, where index is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+	// A map where the key is the path to the property in `sensitive_body` and the value is the version of the property. The key is a string in the format of `path.to.property[index].subproperty`, where `index` is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	SensitiveBodyVersion map[string]*string `json:"sensitiveBodyVersion,omitempty" tf:"sensitive_body_version,omitempty"`
+
 	// It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
 	// <api-version> is version of the API used to manage this azure resource.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the update request.
+	// A mapping of headers to be sent with the update request.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	UpdateHeaders map[string]*string `json:"updateHeaders,omitempty" tf:"update_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the update request.
+	// A mapping of query parameters to be sent with the update request.
+	// +kubebuilder:validation:Optional
+	UpdateQueryParameters map[string][]*string `json:"updateQueryParameters,omitempty" tf:"update_query_parameters,omitempty"`
+}
+
+type UpdateResourceRetryInitParameters struct {
+
+	// (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	ErrorMessageRegex []*string `json:"errorMessageRegex,omitempty" tf:"error_message_regex,omitempty"`
+
+	// (Number) The base number of seconds to wait between retries. Default is 10.
+	// The base number of seconds to wait between retries. Default is `10`.
+	IntervalSeconds *float64 `json:"intervalSeconds,omitempty" tf:"interval_seconds,omitempty"`
+
+	// (Number) The maximum number of seconds to wait between retries. Default is 180.
+	// The maximum number of seconds to wait between retries. Default is `180`.
+	MaxIntervalSeconds *float64 `json:"maxIntervalSeconds,omitempty" tf:"max_interval_seconds,omitempty"`
+
+	// (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+	// The multiplier to apply to the interval between retries. Default is `1.5`.
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+	// The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+	RandomizationFactor *float64 `json:"randomizationFactor,omitempty" tf:"randomization_factor,omitempty"`
+}
+
+type UpdateResourceRetryObservation struct {
+
+	// (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	ErrorMessageRegex []*string `json:"errorMessageRegex,omitempty" tf:"error_message_regex,omitempty"`
+
+	// (Number) The base number of seconds to wait between retries. Default is 10.
+	// The base number of seconds to wait between retries. Default is `10`.
+	IntervalSeconds *float64 `json:"intervalSeconds,omitempty" tf:"interval_seconds,omitempty"`
+
+	// (Number) The maximum number of seconds to wait between retries. Default is 180.
+	// The maximum number of seconds to wait between retries. Default is `180`.
+	MaxIntervalSeconds *float64 `json:"maxIntervalSeconds,omitempty" tf:"max_interval_seconds,omitempty"`
+
+	// (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+	// The multiplier to apply to the interval between retries. Default is `1.5`.
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+	// The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+	RandomizationFactor *float64 `json:"randomizationFactor,omitempty" tf:"randomization_factor,omitempty"`
+}
+
+type UpdateResourceRetryParameters struct {
+
+	// (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// +kubebuilder:validation:Optional
+	ErrorMessageRegex []*string `json:"errorMessageRegex" tf:"error_message_regex,omitempty"`
+
+	// (Number) The base number of seconds to wait between retries. Default is 10.
+	// The base number of seconds to wait between retries. Default is `10`.
+	// +kubebuilder:validation:Optional
+	IntervalSeconds *float64 `json:"intervalSeconds,omitempty" tf:"interval_seconds,omitempty"`
+
+	// (Number) The maximum number of seconds to wait between retries. Default is 180.
+	// The maximum number of seconds to wait between retries. Default is `180`.
+	// +kubebuilder:validation:Optional
+	MaxIntervalSeconds *float64 `json:"maxIntervalSeconds,omitempty" tf:"max_interval_seconds,omitempty"`
+
+	// (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+	// The multiplier to apply to the interval between retries. Default is `1.5`.
+	// +kubebuilder:validation:Optional
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+	// The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+	// +kubebuilder:validation:Optional
+	RandomizationFactor *float64 `json:"randomizationFactor,omitempty" tf:"randomization_factor,omitempty"`
 }
 
 // UpdateResourceSpec defines the desired state of UpdateResource

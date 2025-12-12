@@ -11,12 +11,31 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	apiextv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
 type DataPlaneResourceInitParameters struct {
 
 	// A JSON object that contains the request body used to create and update data plane resource.
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the create request.
+	// A mapping of headers to be sent with the create request.
+	// +mapType=granular
+	CreateHeaders map[string]*string `json:"createHeaders,omitempty" tf:"create_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the create request.
+	// A mapping of query parameters to be sent with the create request.
+	CreateQueryParameters map[string][]*string `json:"createQueryParameters,omitempty" tf:"create_query_parameters,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the delete request.
+	// A mapping of headers to be sent with the delete request.
+	// +mapType=granular
+	DeleteHeaders map[string]*string `json:"deleteHeaders,omitempty" tf:"delete_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the delete request.
+	// A mapping of query parameters to be sent with the delete request.
+	DeleteQueryParameters map[string][]*string `json:"deleteQueryParameters,omitempty" tf:"delete_query_parameters,omitempty"`
 
 	// Whether ignore incorrect casing returned in body to suppress plan-diff. Defaults to false.
 	IgnoreCasing *bool `json:"ignoreCasing,omitempty" tf:"ignore_casing,omitempty"`
@@ -33,19 +52,89 @@ type DataPlaneResourceInitParameters struct {
 	// The ID of the azure resource in which this resource is created. Changing this forces a new resource to be created.
 	ParentID *string `json:"parentId,omitempty" tf:"parent_id,omitempty"`
 
+	// (Map of String) A mapping of headers to be sent with the read request.
+	// A mapping of headers to be sent with the read request.
+	// +mapType=granular
+	ReadHeaders map[string]*string `json:"readHeaders,omitempty" tf:"read_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the read request.
+	// A mapping of query parameters to be sent with the read request.
+	ReadQueryParameters map[string][]*string `json:"readQueryParameters,omitempty" tf:"read_query_parameters,omitempty"`
+
+	// (Dynamic) Will trigger a replace of the resource when the value changes and is not null. This can be used by practitioners to force a replace of the resource when certain values change, e.g. changing the SKU of a virtual machine based on the value of variables or locals. The value is a dynamic, so practitioners can compose the input however they wish. For a "break glass" set the value to null to prevent the plan modifier taking effect.
+	// If you have null values that you do want to be tracked as affecting the resource replacement, include these inside an object.
+	// Advanced use cases are possible and resource replacement can be triggered by values external to the resource, for example when a dependent resource changes.
+	// Will trigger a replace of the resource when the value changes and is not `null`. This can be used by practitioners to force a replace of the resource when certain values change, e.g. changing the SKU of a virtual machine based on the value of variables or locals. The value is a `dynamic`, so practitioners can compose the input however they wish. For a "break glass" set the value to `null` to prevent the plan modifier taking effect.
+	// If you have `null` values that you do want to be tracked as affecting the resource replacement, include these inside an object.
+	// Advanced use cases are possible and resource replacement can be triggered by values external to the resource, for example when a dependent resource changes.
+	//
+	// e.g. to replace a resource when either the SKU or os_type attributes change:
+	//
+	// ```hcl
+	// resource "azapi_data_plane_resource" "example" {
+	// name = var.name
+	// type = "Microsoft.AppConfiguration/configurationStores/keyValues@1.0"
+	// body = {
+	// properties = {
+	// sku   = var.sku
+	// zones = var.zones
+	// }
+	// }
+	//
+	// replace_triggers_external_values = [
+	// var.sku,
+	// var.zones,
+	// ]
+	// }
+	// ```
+	ReplaceTriggersExternalValues *apiextv1.JSON `json:"replaceTriggersExternalValues,omitempty" tf:"replace_triggers_external_values,omitempty"`
+
+	// When the values at these paths change, the resource will be replaced. When the values at these paths change, the resource will be replaced.
+	ReplaceTriggersRefs []*string `json:"replaceTriggersRefs,omitempty" tf:"replace_triggers_refs,omitempty"`
+
 	// A list of path that needs to be exported from response body.
 	// Setting it to ["*"] will export the full response body.
 	// Here's an example. If it sets to ["properties.loginServer", "properties.policies.quarantinePolicy.status"], it will set the following json to computed property output.
 	ResponseExportValues []*string `json:"responseExportValues,omitempty" tf:"response_export_values,omitempty"`
 
+	// (Attributes) The retry object supports the following attributes: (see below for nested schema)
+	Retry *RetryInitParameters `json:"retry,omitempty" tf:"retry,omitempty"`
+
 	// It is in a format like <resource-type>@<api-version>. <api-version> is version of the API used to manage this azure data plane resource.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the update request.
+	// A mapping of headers to be sent with the update request.
+	// +mapType=granular
+	UpdateHeaders map[string]*string `json:"updateHeaders,omitempty" tf:"update_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the update request.
+	// A mapping of query parameters to be sent with the update request.
+	UpdateQueryParameters map[string][]*string `json:"updateQueryParameters,omitempty" tf:"update_query_parameters,omitempty"`
 }
 
 type DataPlaneResourceObservation struct {
 
 	// A JSON object that contains the request body used to create and update data plane resource.
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the create request.
+	// A mapping of headers to be sent with the create request.
+	// +mapType=granular
+	CreateHeaders map[string]*string `json:"createHeaders,omitempty" tf:"create_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the create request.
+	// A mapping of query parameters to be sent with the create request.
+	CreateQueryParameters map[string][]*string `json:"createQueryParameters,omitempty" tf:"create_query_parameters,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the delete request.
+	// A mapping of headers to be sent with the delete request.
+	// +mapType=granular
+	DeleteHeaders map[string]*string `json:"deleteHeaders,omitempty" tf:"delete_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the delete request.
+	// A mapping of query parameters to be sent with the delete request.
+	DeleteQueryParameters map[string][]*string `json:"deleteQueryParameters,omitempty" tf:"delete_query_parameters,omitempty"`
 
 	// The ID of the azure resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -68,13 +157,65 @@ type DataPlaneResourceObservation struct {
 	// The ID of the azure resource in which this resource is created. Changing this forces a new resource to be created.
 	ParentID *string `json:"parentId,omitempty" tf:"parent_id,omitempty"`
 
+	// (Map of String) A mapping of headers to be sent with the read request.
+	// A mapping of headers to be sent with the read request.
+	// +mapType=granular
+	ReadHeaders map[string]*string `json:"readHeaders,omitempty" tf:"read_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the read request.
+	// A mapping of query parameters to be sent with the read request.
+	ReadQueryParameters map[string][]*string `json:"readQueryParameters,omitempty" tf:"read_query_parameters,omitempty"`
+
+	// (Dynamic) Will trigger a replace of the resource when the value changes and is not null. This can be used by practitioners to force a replace of the resource when certain values change, e.g. changing the SKU of a virtual machine based on the value of variables or locals. The value is a dynamic, so practitioners can compose the input however they wish. For a "break glass" set the value to null to prevent the plan modifier taking effect.
+	// If you have null values that you do want to be tracked as affecting the resource replacement, include these inside an object.
+	// Advanced use cases are possible and resource replacement can be triggered by values external to the resource, for example when a dependent resource changes.
+	// Will trigger a replace of the resource when the value changes and is not `null`. This can be used by practitioners to force a replace of the resource when certain values change, e.g. changing the SKU of a virtual machine based on the value of variables or locals. The value is a `dynamic`, so practitioners can compose the input however they wish. For a "break glass" set the value to `null` to prevent the plan modifier taking effect.
+	// If you have `null` values that you do want to be tracked as affecting the resource replacement, include these inside an object.
+	// Advanced use cases are possible and resource replacement can be triggered by values external to the resource, for example when a dependent resource changes.
+	//
+	// e.g. to replace a resource when either the SKU or os_type attributes change:
+	//
+	// ```hcl
+	// resource "azapi_data_plane_resource" "example" {
+	// name = var.name
+	// type = "Microsoft.AppConfiguration/configurationStores/keyValues@1.0"
+	// body = {
+	// properties = {
+	// sku   = var.sku
+	// zones = var.zones
+	// }
+	// }
+	//
+	// replace_triggers_external_values = [
+	// var.sku,
+	// var.zones,
+	// ]
+	// }
+	// ```
+	ReplaceTriggersExternalValues *apiextv1.JSON `json:"replaceTriggersExternalValues,omitempty" tf:"replace_triggers_external_values,omitempty"`
+
+	// When the values at these paths change, the resource will be replaced. When the values at these paths change, the resource will be replaced.
+	ReplaceTriggersRefs []*string `json:"replaceTriggersRefs,omitempty" tf:"replace_triggers_refs,omitempty"`
+
 	// A list of path that needs to be exported from response body.
 	// Setting it to ["*"] will export the full response body.
 	// Here's an example. If it sets to ["properties.loginServer", "properties.policies.quarantinePolicy.status"], it will set the following json to computed property output.
 	ResponseExportValues []*string `json:"responseExportValues,omitempty" tf:"response_export_values,omitempty"`
 
+	// (Attributes) The retry object supports the following attributes: (see below for nested schema)
+	Retry *RetryObservation `json:"retry,omitempty" tf:"retry,omitempty"`
+
 	// It is in a format like <resource-type>@<api-version>. <api-version> is version of the API used to manage this azure data plane resource.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the update request.
+	// A mapping of headers to be sent with the update request.
+	// +mapType=granular
+	UpdateHeaders map[string]*string `json:"updateHeaders,omitempty" tf:"update_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the update request.
+	// A mapping of query parameters to be sent with the update request.
+	UpdateQueryParameters map[string][]*string `json:"updateQueryParameters,omitempty" tf:"update_query_parameters,omitempty"`
 }
 
 type DataPlaneResourceParameters struct {
@@ -83,25 +224,96 @@ type DataPlaneResourceParameters struct {
 	// +kubebuilder:validation:Optional
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
-	// Whether ignore incorrect casing returned in body to suppress plan-diff. Defaults to false.
+	// (Map of String) A mapping of headers to be sent with the create request.
+	// A mapping of headers to be sent with the create request.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	CreateHeaders map[string]*string `json:"createHeaders,omitempty" tf:"create_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the create request.
+	// A mapping of query parameters to be sent with the create request.
+	// +kubebuilder:validation:Optional
+	CreateQueryParameters map[string][]*string `json:"createQueryParameters,omitempty" tf:"create_query_parameters,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the delete request.
+	// A mapping of headers to be sent with the delete request.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	DeleteHeaders map[string]*string `json:"deleteHeaders,omitempty" tf:"delete_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the delete request.
+	// A mapping of query parameters to be sent with the delete request.
+	// +kubebuilder:validation:Optional
+	DeleteQueryParameters map[string][]*string `json:"deleteQueryParameters,omitempty" tf:"delete_query_parameters,omitempty"`
+
+	// (Boolean) A dynamic attribute that contains the request body.
+	// A dynamic attribute that contains the request body.
 	// +kubebuilder:validation:Optional
 	IgnoreCasing *bool `json:"ignoreCasing,omitempty" tf:"ignore_casing,omitempty"`
 
-	// Whether ignore not returned properties like credentials in body to suppress plan-diff. Defaults to true.
+	// diff. Defaults to true. It's recommend to enable this option when some sensitive properties are not returned in response body, instead of setting them in lifecycle.ignore_changes because it will make the sensitive fields unable to update.
+	// Whether ignore not returned properties like credentials in `body` to suppress plan-diff. Defaults to `true`. It's recommend to enable this option when some sensitive properties are not returned in response body, instead of setting them in `lifecycle.ignore_changes` because it will make the sensitive fields unable to update.
 	// +kubebuilder:validation:Optional
 	IgnoreMissingProperty *bool `json:"ignoreMissingProperty,omitempty" tf:"ignore_missing_property,omitempty"`
 
+	// (List of String) A list of ARM resource IDs which are used to avoid create/modify/delete azapi resources at the same time.
 	// A list of ARM resource IDs which are used to avoid create/modify/delete azapi resources at the same time.
 	// +kubebuilder:validation:Optional
 	Locks []*string `json:"locks,omitempty" tf:"locks,omitempty"`
 
-	// Specifies the name of the azure resource. Changing this forces a new resource to be created.
+	// (String) Specifies the name of the Azure resource. Changing this forces a new resource to be created.
+	// Specifies the name of the Azure resource. Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (String) The ID of the azure resource in which this resource is created. Changing this forces a new resource to be created.
 	// The ID of the azure resource in which this resource is created. Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	ParentID *string `json:"parentId,omitempty" tf:"parent_id,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the read request.
+	// A mapping of headers to be sent with the read request.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ReadHeaders map[string]*string `json:"readHeaders,omitempty" tf:"read_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the read request.
+	// A mapping of query parameters to be sent with the read request.
+	// +kubebuilder:validation:Optional
+	ReadQueryParameters map[string][]*string `json:"readQueryParameters,omitempty" tf:"read_query_parameters,omitempty"`
+
+	// (Dynamic) Will trigger a replace of the resource when the value changes and is not null. This can be used by practitioners to force a replace of the resource when certain values change, e.g. changing the SKU of a virtual machine based on the value of variables or locals. The value is a dynamic, so practitioners can compose the input however they wish. For a "break glass" set the value to null to prevent the plan modifier taking effect.
+	// If you have null values that you do want to be tracked as affecting the resource replacement, include these inside an object.
+	// Advanced use cases are possible and resource replacement can be triggered by values external to the resource, for example when a dependent resource changes.
+	// Will trigger a replace of the resource when the value changes and is not `null`. This can be used by practitioners to force a replace of the resource when certain values change, e.g. changing the SKU of a virtual machine based on the value of variables or locals. The value is a `dynamic`, so practitioners can compose the input however they wish. For a "break glass" set the value to `null` to prevent the plan modifier taking effect.
+	// If you have `null` values that you do want to be tracked as affecting the resource replacement, include these inside an object.
+	// Advanced use cases are possible and resource replacement can be triggered by values external to the resource, for example when a dependent resource changes.
+	//
+	// e.g. to replace a resource when either the SKU or os_type attributes change:
+	//
+	// ```hcl
+	// resource "azapi_data_plane_resource" "example" {
+	// name = var.name
+	// type = "Microsoft.AppConfiguration/configurationStores/keyValues@1.0"
+	// body = {
+	// properties = {
+	// sku   = var.sku
+	// zones = var.zones
+	// }
+	// }
+	//
+	// replace_triggers_external_values = [
+	// var.sku,
+	// var.zones,
+	// ]
+	// }
+	// ```
+	// +kubebuilder:validation:Optional
+	ReplaceTriggersExternalValues *apiextv1.JSON `json:"replaceTriggersExternalValues,omitempty" tf:"replace_triggers_external_values,omitempty"`
+
+	// When the values at these paths change, the resource will be replaced. When the values at these paths change, the resource will be replaced.
+	// +kubebuilder:validation:Optional
+	ReplaceTriggersRefs []*string `json:"replaceTriggersRefs,omitempty" tf:"replace_triggers_refs,omitempty"`
 
 	// A list of path that needs to be exported from response body.
 	// Setting it to ["*"] will export the full response body.
@@ -109,9 +321,95 @@ type DataPlaneResourceParameters struct {
 	// +kubebuilder:validation:Optional
 	ResponseExportValues []*string `json:"responseExportValues,omitempty" tf:"response_export_values,omitempty"`
 
-	// It is in a format like <resource-type>@<api-version>. <api-version> is version of the API used to manage this azure data plane resource.
-	// +kubebuilder:validation:Optional
+	// (Attributes) The retry object supports the following attributes: (see below for nested schema)
+	Retry *RetryObservation `json:"retry,omitempty" tf:"retry,omitempty"`
+
+	// type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts. <api-version> is version of the API used to manage this azure resource.
+	// In a format like `<resource-type>@<api-version>`. `<resource-type>` is the Azure resource type, for example, `Microsoft.Storage/storageAccounts`. `<api-version>` is version of the API used to manage this azure resource.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// (Map of String) A mapping of headers to be sent with the update request.
+	// A mapping of headers to be sent with the update request.
+	// +mapType=granular
+	UpdateHeaders map[string]*string `json:"updateHeaders,omitempty" tf:"update_headers,omitempty"`
+
+	// (Map of List of String) A mapping of query parameters to be sent with the update request.
+	// A mapping of query parameters to be sent with the update request.
+	UpdateQueryParameters map[string][]*string `json:"updateQueryParameters,omitempty" tf:"update_query_parameters,omitempty"`
+}
+
+type RetryInitParameters struct {
+
+	// (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	ErrorMessageRegex []*string `json:"errorMessageRegex,omitempty" tf:"error_message_regex,omitempty"`
+
+	// (Number) The base number of seconds to wait between retries. Default is 10.
+	// The base number of seconds to wait between retries. Default is `10`.
+	IntervalSeconds *float64 `json:"intervalSeconds,omitempty" tf:"interval_seconds,omitempty"`
+
+	// (Number) The maximum number of seconds to wait between retries. Default is 180.
+	// The maximum number of seconds to wait between retries. Default is `180`.
+	MaxIntervalSeconds *float64 `json:"maxIntervalSeconds,omitempty" tf:"max_interval_seconds,omitempty"`
+
+	// (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+	// The multiplier to apply to the interval between retries. Default is `1.5`.
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+	// The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+	RandomizationFactor *float64 `json:"randomizationFactor,omitempty" tf:"randomization_factor,omitempty"`
+}
+
+type RetryObservation struct {
+
+	// (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	ErrorMessageRegex []*string `json:"errorMessageRegex,omitempty" tf:"error_message_regex,omitempty"`
+
+	// (Number) The base number of seconds to wait between retries. Default is 10.
+	// The base number of seconds to wait between retries. Default is `10`.
+	IntervalSeconds *float64 `json:"intervalSeconds,omitempty" tf:"interval_seconds,omitempty"`
+
+	// (Number) The maximum number of seconds to wait between retries. Default is 180.
+	// The maximum number of seconds to wait between retries. Default is `180`.
+	MaxIntervalSeconds *float64 `json:"maxIntervalSeconds,omitempty" tf:"max_interval_seconds,omitempty"`
+
+	// (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+	// The multiplier to apply to the interval between retries. Default is `1.5`.
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+	// The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+	RandomizationFactor *float64 `json:"randomizationFactor,omitempty" tf:"randomization_factor,omitempty"`
+}
+
+type RetryParameters struct {
+
+	// (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// +kubebuilder:validation:Optional
+	ErrorMessageRegex []*string `json:"errorMessageRegex" tf:"error_message_regex,omitempty"`
+
+	// (Number) The base number of seconds to wait between retries. Default is 10.
+	// The base number of seconds to wait between retries. Default is `10`.
+	// +kubebuilder:validation:Optional
+	IntervalSeconds *float64 `json:"intervalSeconds,omitempty" tf:"interval_seconds,omitempty"`
+
+	// (Number) The maximum number of seconds to wait between retries. Default is 180.
+	// The maximum number of seconds to wait between retries. Default is `180`.
+	// +kubebuilder:validation:Optional
+	MaxIntervalSeconds *float64 `json:"maxIntervalSeconds,omitempty" tf:"max_interval_seconds,omitempty"`
+
+	// (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+	// The multiplier to apply to the interval between retries. Default is `1.5`.
+	// +kubebuilder:validation:Optional
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+	// The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+	// +kubebuilder:validation:Optional
+	RandomizationFactor *float64 `json:"randomizationFactor,omitempty" tf:"randomization_factor,omitempty"`
 }
 
 // DataPlaneResourceSpec defines the desired state of DataPlaneResource

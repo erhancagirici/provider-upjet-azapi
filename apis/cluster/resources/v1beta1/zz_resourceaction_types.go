@@ -11,6 +11,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	apiextv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
 type ResourceActionInitParameters struct {
@@ -21,11 +22,20 @@ type ResourceActionInitParameters struct {
 	// A JSON object that contains the request body.
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
+	// (Map of String) A map of headers to include in the request
+	// A map of headers to include in the request
+	// +mapType=granular
+	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
+
 	// A list of ARM resource IDs which are used to avoid modify azapi resources at the same time.
 	Locks []*string `json:"locks,omitempty" tf:"locks,omitempty"`
 
 	// Specifies the Http method of the azure resource action. Allowed values are POST, PATCH, PUT and DELETE. Defaults to POST.
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
+
+	// (Map of List of String) A map of query parameters to include in the request
+	// A map of query parameters to include in the request
+	QueryParameters map[string][]*string `json:"queryParameters,omitempty" tf:"query_parameters,omitempty"`
 
 	// The ID of an existing azure source.
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
@@ -34,6 +44,39 @@ type ResourceActionInitParameters struct {
 	// Setting it to ["*"] will export the full response body.
 	// Here's an example. If it sets to ["keys"], it will set the following json to computed property output.
 	ResponseExportValues []*string `json:"responseExportValues,omitempty" tf:"response_export_values,omitempty"`
+
+	// (Attributes) The retry object supports the following attributes: (see below for nested schema)
+	Retry *ResourceActionRetryInitParameters `json:"retry,omitempty" tf:"retry,omitempty"`
+
+	// (Dynamic) The attribute can accept either a list or a map.
+	// The attribute can accept either a list or a map.
+	//
+	// - **List**: A list of paths that need to be exported from the response body. Setting it to `["*"]` will export the full response body. Here's an example. If it sets to `["properties.loginServer", "properties.policies.quarantinePolicy.status"]`, it will set the following HCL object to the computed property output.
+	//
+	// ```text
+	// {
+	// properties = {
+	// loginServer = "registry1.azurecr.io"
+	// policies = {
+	// quarantinePolicy = {
+	// status = "disabled"
+	// }
+	// }
+	// }
+	// }
+	// ```
+	//
+	// - **Map**: A map where the key is the name for the result and the value is a JMESPath query string to filter the response. Here's an example. If it sets to `{"login_server": "properties.loginServer", "quarantine_status": "properties.policies.quarantinePolicy.status"}`, it will set the following HCL object to the computed property output.
+	//
+	// ```text
+	// {
+	// "login_server" = "registry1.azurecr.io"
+	// "quarantine_status" = "disabled"
+	// }
+	// ```
+	//
+	// To learn more about JMESPath, visit [JMESPath](https://jmespath.org/).
+	SensitiveResponseExportValues *apiextv1.JSON `json:"sensitiveResponseExportValues,omitempty" tf:"sensitive_response_export_values,omitempty"`
 
 	// It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
 	// <api-version> is version of the API used to manage this azure resource.
@@ -52,6 +95,11 @@ type ResourceActionObservation struct {
 	// A JSON object that contains the request body.
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
+	// (Map of String) A map of headers to include in the request
+	// A map of headers to include in the request
+	// +mapType=granular
+	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
+
 	// The ID of the azure resource action.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -64,6 +112,10 @@ type ResourceActionObservation struct {
 	// The output json containing the properties specified in response_export_values. Here are some examples to decode json and extract the value.
 	Output *string `json:"output,omitempty" tf:"output,omitempty"`
 
+	// (Map of List of String) A map of query parameters to include in the request
+	// A map of query parameters to include in the request
+	QueryParameters map[string][]*string `json:"queryParameters,omitempty" tf:"query_parameters,omitempty"`
+
 	// The ID of an existing azure source.
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
@@ -71,6 +123,39 @@ type ResourceActionObservation struct {
 	// Setting it to ["*"] will export the full response body.
 	// Here's an example. If it sets to ["keys"], it will set the following json to computed property output.
 	ResponseExportValues []*string `json:"responseExportValues,omitempty" tf:"response_export_values,omitempty"`
+
+	// (Attributes) The retry object supports the following attributes: (see below for nested schema)
+	Retry *ResourceActionRetryObservation `json:"retry,omitempty" tf:"retry,omitempty"`
+
+	// (Dynamic) The attribute can accept either a list or a map.
+	// The attribute can accept either a list or a map.
+	//
+	// - **List**: A list of paths that need to be exported from the response body. Setting it to `["*"]` will export the full response body. Here's an example. If it sets to `["properties.loginServer", "properties.policies.quarantinePolicy.status"]`, it will set the following HCL object to the computed property output.
+	//
+	// ```text
+	// {
+	// properties = {
+	// loginServer = "registry1.azurecr.io"
+	// policies = {
+	// quarantinePolicy = {
+	// status = "disabled"
+	// }
+	// }
+	// }
+	// }
+	// ```
+	//
+	// - **Map**: A map where the key is the name for the result and the value is a JMESPath query string to filter the response. Here's an example. If it sets to `{"login_server": "properties.loginServer", "quarantine_status": "properties.policies.quarantinePolicy.status"}`, it will set the following HCL object to the computed property output.
+	//
+	// ```text
+	// {
+	// "login_server" = "registry1.azurecr.io"
+	// "quarantine_status" = "disabled"
+	// }
+	// ```
+	//
+	// To learn more about JMESPath, visit [JMESPath](https://jmespath.org/).
+	SensitiveResponseExportValues *apiextv1.JSON `json:"sensitiveResponseExportValues,omitempty" tf:"sensitive_response_export_values,omitempty"`
 
 	// It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
 	// <api-version> is version of the API used to manage this azure resource.
@@ -91,6 +176,12 @@ type ResourceActionParameters struct {
 	// +kubebuilder:validation:Optional
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
+	// (Map of String) A map of headers to include in the request
+	// A map of headers to include in the request
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
+
 	// A list of ARM resource IDs which are used to avoid modify azapi resources at the same time.
 	// +kubebuilder:validation:Optional
 	Locks []*string `json:"locks,omitempty" tf:"locks,omitempty"`
@@ -98,6 +189,11 @@ type ResourceActionParameters struct {
 	// Specifies the Http method of the azure resource action. Allowed values are POST, PATCH, PUT and DELETE. Defaults to POST.
 	// +kubebuilder:validation:Optional
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
+
+	// (Map of List of String) A map of query parameters to include in the request
+	// A map of query parameters to include in the request
+	// +kubebuilder:validation:Optional
+	QueryParameters map[string][]*string `json:"queryParameters,omitempty" tf:"query_parameters,omitempty"`
 
 	// The ID of an existing azure source.
 	// +kubebuilder:validation:Optional
@@ -109,6 +205,41 @@ type ResourceActionParameters struct {
 	// +kubebuilder:validation:Optional
 	ResponseExportValues []*string `json:"responseExportValues,omitempty" tf:"response_export_values,omitempty"`
 
+	// (Attributes) The retry object supports the following attributes: (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	Retry *ResourceActionRetryParameters `json:"retry,omitempty" tf:"retry,omitempty"`
+
+	// (Dynamic) The attribute can accept either a list or a map.
+	// The attribute can accept either a list or a map.
+	//
+	// - **List**: A list of paths that need to be exported from the response body. Setting it to `["*"]` will export the full response body. Here's an example. If it sets to `["properties.loginServer", "properties.policies.quarantinePolicy.status"]`, it will set the following HCL object to the computed property output.
+	//
+	// ```text
+	// {
+	// properties = {
+	// loginServer = "registry1.azurecr.io"
+	// policies = {
+	// quarantinePolicy = {
+	// status = "disabled"
+	// }
+	// }
+	// }
+	// }
+	// ```
+	//
+	// - **Map**: A map where the key is the name for the result and the value is a JMESPath query string to filter the response. Here's an example. If it sets to `{"login_server": "properties.loginServer", "quarantine_status": "properties.policies.quarantinePolicy.status"}`, it will set the following HCL object to the computed property output.
+	//
+	// ```text
+	// {
+	// "login_server" = "registry1.azurecr.io"
+	// "quarantine_status" = "disabled"
+	// }
+	// ```
+	//
+	// To learn more about JMESPath, visit [JMESPath](https://jmespath.org/).
+	// +kubebuilder:validation:Optional
+	SensitiveResponseExportValues *apiextv1.JSON `json:"sensitiveResponseExportValues,omitempty" tf:"sensitive_response_export_values,omitempty"`
+
 	// It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
 	// <api-version> is version of the API used to manage this azure resource.
 	// +kubebuilder:validation:Optional
@@ -118,6 +249,80 @@ type ResourceActionParameters struct {
 	// When to perform the action, value must be one of: 'apply', 'destroy'. Default is 'apply'.
 	// +kubebuilder:validation:Optional
 	When *string `json:"when,omitempty" tf:"when,omitempty"`
+}
+
+type ResourceActionRetryInitParameters struct {
+
+	// (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	ErrorMessageRegex []*string `json:"errorMessageRegex,omitempty" tf:"error_message_regex,omitempty"`
+
+	// (Number) The base number of seconds to wait between retries. Default is 10.
+	// The base number of seconds to wait between retries. Default is `10`.
+	IntervalSeconds *float64 `json:"intervalSeconds,omitempty" tf:"interval_seconds,omitempty"`
+
+	// (Number) The maximum number of seconds to wait between retries. Default is 180.
+	// The maximum number of seconds to wait between retries. Default is `180`.
+	MaxIntervalSeconds *float64 `json:"maxIntervalSeconds,omitempty" tf:"max_interval_seconds,omitempty"`
+
+	// (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+	// The multiplier to apply to the interval between retries. Default is `1.5`.
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+	// The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+	RandomizationFactor *float64 `json:"randomizationFactor,omitempty" tf:"randomization_factor,omitempty"`
+}
+
+type ResourceActionRetryObservation struct {
+
+	// (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	ErrorMessageRegex []*string `json:"errorMessageRegex,omitempty" tf:"error_message_regex,omitempty"`
+
+	// (Number) The base number of seconds to wait between retries. Default is 10.
+	// The base number of seconds to wait between retries. Default is `10`.
+	IntervalSeconds *float64 `json:"intervalSeconds,omitempty" tf:"interval_seconds,omitempty"`
+
+	// (Number) The maximum number of seconds to wait between retries. Default is 180.
+	// The maximum number of seconds to wait between retries. Default is `180`.
+	MaxIntervalSeconds *float64 `json:"maxIntervalSeconds,omitempty" tf:"max_interval_seconds,omitempty"`
+
+	// (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+	// The multiplier to apply to the interval between retries. Default is `1.5`.
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+	// The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+	RandomizationFactor *float64 `json:"randomizationFactor,omitempty" tf:"randomization_factor,omitempty"`
+}
+
+type ResourceActionRetryParameters struct {
+
+	// (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+	// +kubebuilder:validation:Optional
+	ErrorMessageRegex []*string `json:"errorMessageRegex" tf:"error_message_regex,omitempty"`
+
+	// (Number) The base number of seconds to wait between retries. Default is 10.
+	// The base number of seconds to wait between retries. Default is `10`.
+	// +kubebuilder:validation:Optional
+	IntervalSeconds *float64 `json:"intervalSeconds,omitempty" tf:"interval_seconds,omitempty"`
+
+	// (Number) The maximum number of seconds to wait between retries. Default is 180.
+	// The maximum number of seconds to wait between retries. Default is `180`.
+	// +kubebuilder:validation:Optional
+	MaxIntervalSeconds *float64 `json:"maxIntervalSeconds,omitempty" tf:"max_interval_seconds,omitempty"`
+
+	// (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+	// The multiplier to apply to the interval between retries. Default is `1.5`.
+	// +kubebuilder:validation:Optional
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+	// The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+	// +kubebuilder:validation:Optional
+	RandomizationFactor *float64 `json:"randomizationFactor,omitempty" tf:"randomization_factor,omitempty"`
 }
 
 // ResourceActionSpec defines the desired state of ResourceAction
