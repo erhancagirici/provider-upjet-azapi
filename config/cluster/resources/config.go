@@ -30,7 +30,7 @@ func Configure(p *config.Provider) {
 		r.Version = versionV1Beta2
 		r.PreviousVersions = []string{versionV1Beta1}
 		r.ControllerReconcileVersion = versionV1Beta2
-		r.SetCRDStorageVersion(versionV1Beta2)
+		r.SetCRDStorageVersion(versionV1Beta1)
 
 		r.Conversions = r.Conversions[1:]
 		typeChangingPaths := []string{"body", "output", "responseExportValues"}
@@ -47,7 +47,7 @@ func Configure(p *config.Provider) {
 		r.Version = versionV1Beta2
 		r.PreviousVersions = []string{versionV1Beta1}
 		r.ControllerReconcileVersion = versionV1Beta2
-		r.SetCRDStorageVersion(versionV1Beta2)
+		r.SetCRDStorageVersion(versionV1Beta1)
 		r.Conversions = r.Conversions[1:]
 		typeChangingPaths := []string{"body", "output", "responseExportValues"}
 		r.Conversions = append(r.Conversions,
@@ -63,7 +63,7 @@ func Configure(p *config.Provider) {
 		r.Version = versionV1Beta2
 		r.PreviousVersions = []string{versionV1Beta1}
 		r.ControllerReconcileVersion = versionV1Beta2
-		r.SetCRDStorageVersion(versionV1Beta2)
+		r.SetCRDStorageVersion(versionV1Beta1)
 		r.Conversions = r.Conversions[1:]
 		typeChangingPaths := []string{"body", "output", "responseExportValues"}
 		r.Conversions = append(r.Conversions,
@@ -82,7 +82,7 @@ func Configure(p *config.Provider) {
 		r.Version = versionV1Beta2
 		r.PreviousVersions = []string{versionV1Beta1}
 		r.ControllerReconcileVersion = versionV1Beta2
-		r.SetCRDStorageVersion(versionV1Beta2)
+		r.SetCRDStorageVersion(versionV1Beta1)
 		r.Conversions = r.Conversions[1:]
 		typeChangingPaths := []string{"body", "output", "responseExportValues"}
 		r.Conversions = append(r.Conversions,
