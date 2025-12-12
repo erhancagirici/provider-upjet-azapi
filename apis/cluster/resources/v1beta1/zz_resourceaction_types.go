@@ -350,6 +350,7 @@ type ResourceActionStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ResourceAction is the Schema for the ResourceActions API. Perform resource action which changes an existing resource's state
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

@@ -437,6 +437,7 @@ type DataPlaneResourceStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // DataPlaneResource is the Schema for the DataPlaneResources API. Manages a Azure data plane resource
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

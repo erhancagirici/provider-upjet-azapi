@@ -334,6 +334,7 @@ type UpdateResourceStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // UpdateResource is the Schema for the UpdateResources API. Manages a subset of an existing azure resource's properties
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
