@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.18.0
+    controller-gen.kubebuilder.io/version: v0.19.0
   name: resourceactions.resources.azapi.upbound.io
 spec:
   group: resources.azapi.upbound.io
@@ -81,6 +81,14 @@ spec:
                   body:
                     description: A JSON object that contains the request body.
                     type: string
+                  headers:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A map of headers to include in the request
+                      A map of headers to include in the request
+                    type: object
+                    x-kubernetes-map-type: granular
                   locks:
                     description: A list of ARM resource IDs which are used to avoid
                       modify azapi resources at the same time.
@@ -92,6 +100,15 @@ spec:
                       Allowed values are POST, PATCH, PUT and DELETE. Defaults to
                       POST.
                     type: string
+                  queryParameters:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: |-
+                      (Map of List of String) A map of query parameters to include in the request
+                      A map of query parameters to include in the request
+                    type: object
                   resourceId:
                     description: The ID of an existing azure source.
                     type: string
@@ -103,6 +120,69 @@ spec:
                     items:
                       type: string
                     type: array
+                  retry:
+                    description: '(Attributes) The retry object supports the following
+                      attributes: (see below for nested schema)'
+                    properties:
+                      errorMessageRegex:
+                        description: |-
+                          (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+                          A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+                        items:
+                          type: string
+                        type: array
+                      intervalSeconds:
+                        description: |-
+                          (Number) The base number of seconds to wait between retries. Default is 10.
+                          The base number of seconds to wait between retries. Default is `10`.
+                        type: number
+                      maxIntervalSeconds:
+                        description: |-
+                          (Number) The maximum number of seconds to wait between retries. Default is 180.
+                          The maximum number of seconds to wait between retries. Default is `180`.
+                        type: number
+                      multiplier:
+                        description: |-
+                          (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+                          The multiplier to apply to the interval between retries. Default is `1.5`.
+                        type: number
+                      randomizationFactor:
+                        description: |-
+                          RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+                          The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+                        type: number
+                    type: object
+                  sensitiveResponseExportValues:
+                    description: |-
+                      (Dynamic) The attribute can accept either a list or a map.
+                      The attribute can accept either a list or a map.
+
+                      - **List**: A list of paths that need to be exported from the response body. Setting it to `["*"]` will export the full response body. Here's an example. If it sets to `["properties.loginServer", "properties.policies.quarantinePolicy.status"]`, it will set the following HCL object to the computed property output.
+
+                      ```text
+                      {
+                      properties = {
+                      loginServer = "registry1.azurecr.io"
+                      policies = {
+                      quarantinePolicy = {
+                      status = "disabled"
+                      }
+                      }
+                      }
+                      }
+                      ```
+
+                      - **Map**: A map where the key is the name for the result and the value is a JMESPath query string to filter the response. Here's an example. If it sets to `{"login_server": "properties.loginServer", "quarantine_status": "properties.policies.quarantinePolicy.status"}`, it will set the following HCL object to the computed property output.
+
+                      ```text
+                      {
+                      "login_server" = "registry1.azurecr.io"
+                      "quarantine_status" = "disabled"
+                      }
+                      ```
+
+                      To learn more about JMESPath, visit [JMESPath](https://jmespath.org/).
+                    x-kubernetes-preserve-unknown-fields: true
                   type:
                     description: |-
                       It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
@@ -135,6 +215,14 @@ spec:
                   body:
                     description: A JSON object that contains the request body.
                     type: string
+                  headers:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A map of headers to include in the request
+                      A map of headers to include in the request
+                    type: object
+                    x-kubernetes-map-type: granular
                   locks:
                     description: A list of ARM resource IDs which are used to avoid
                       modify azapi resources at the same time.
@@ -146,6 +234,15 @@ spec:
                       Allowed values are POST, PATCH, PUT and DELETE. Defaults to
                       POST.
                     type: string
+                  queryParameters:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: |-
+                      (Map of List of String) A map of query parameters to include in the request
+                      A map of query parameters to include in the request
+                    type: object
                   resourceId:
                     description: The ID of an existing azure source.
                     type: string
@@ -157,6 +254,69 @@ spec:
                     items:
                       type: string
                     type: array
+                  retry:
+                    description: '(Attributes) The retry object supports the following
+                      attributes: (see below for nested schema)'
+                    properties:
+                      errorMessageRegex:
+                        description: |-
+                          (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+                          A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+                        items:
+                          type: string
+                        type: array
+                      intervalSeconds:
+                        description: |-
+                          (Number) The base number of seconds to wait between retries. Default is 10.
+                          The base number of seconds to wait between retries. Default is `10`.
+                        type: number
+                      maxIntervalSeconds:
+                        description: |-
+                          (Number) The maximum number of seconds to wait between retries. Default is 180.
+                          The maximum number of seconds to wait between retries. Default is `180`.
+                        type: number
+                      multiplier:
+                        description: |-
+                          (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+                          The multiplier to apply to the interval between retries. Default is `1.5`.
+                        type: number
+                      randomizationFactor:
+                        description: |-
+                          RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+                          The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+                        type: number
+                    type: object
+                  sensitiveResponseExportValues:
+                    description: |-
+                      (Dynamic) The attribute can accept either a list or a map.
+                      The attribute can accept either a list or a map.
+
+                      - **List**: A list of paths that need to be exported from the response body. Setting it to `["*"]` will export the full response body. Here's an example. If it sets to `["properties.loginServer", "properties.policies.quarantinePolicy.status"]`, it will set the following HCL object to the computed property output.
+
+                      ```text
+                      {
+                      properties = {
+                      loginServer = "registry1.azurecr.io"
+                      policies = {
+                      quarantinePolicy = {
+                      status = "disabled"
+                      }
+                      }
+                      }
+                      }
+                      ```
+
+                      - **Map**: A map where the key is the name for the result and the value is a JMESPath query string to filter the response. Here's an example. If it sets to `{"login_server": "properties.loginServer", "quarantine_status": "properties.policies.quarantinePolicy.status"}`, it will set the following HCL object to the computed property output.
+
+                      ```text
+                      {
+                      "login_server" = "registry1.azurecr.io"
+                      "quarantine_status" = "disabled"
+                      }
+                      ```
+
+                      To learn more about JMESPath, visit [JMESPath](https://jmespath.org/).
+                    x-kubernetes-preserve-unknown-fields: true
                   type:
                     description: |-
                       It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
@@ -276,6 +436,14 @@ spec:
                   body:
                     description: A JSON object that contains the request body.
                     type: string
+                  headers:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A map of headers to include in the request
+                      A map of headers to include in the request
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: The ID of the azure resource action.
                     type: string
@@ -295,6 +463,15 @@ spec:
                       in response_export_values. Here are some examples to decode
                       json and extract the value.
                     type: string
+                  queryParameters:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: |-
+                      (Map of List of String) A map of query parameters to include in the request
+                      A map of query parameters to include in the request
+                    type: object
                   resourceId:
                     description: The ID of an existing azure source.
                     type: string
@@ -306,6 +483,69 @@ spec:
                     items:
                       type: string
                     type: array
+                  retry:
+                    description: '(Attributes) The retry object supports the following
+                      attributes: (see below for nested schema)'
+                    properties:
+                      errorMessageRegex:
+                        description: |-
+                          (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+                          A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+                        items:
+                          type: string
+                        type: array
+                      intervalSeconds:
+                        description: |-
+                          (Number) The base number of seconds to wait between retries. Default is 10.
+                          The base number of seconds to wait between retries. Default is `10`.
+                        type: number
+                      maxIntervalSeconds:
+                        description: |-
+                          (Number) The maximum number of seconds to wait between retries. Default is 180.
+                          The maximum number of seconds to wait between retries. Default is `180`.
+                        type: number
+                      multiplier:
+                        description: |-
+                          (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+                          The multiplier to apply to the interval between retries. Default is `1.5`.
+                        type: number
+                      randomizationFactor:
+                        description: |-
+                          RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+                          The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+                        type: number
+                    type: object
+                  sensitiveResponseExportValues:
+                    description: |-
+                      (Dynamic) The attribute can accept either a list or a map.
+                      The attribute can accept either a list or a map.
+
+                      - **List**: A list of paths that need to be exported from the response body. Setting it to `["*"]` will export the full response body. Here's an example. If it sets to `["properties.loginServer", "properties.policies.quarantinePolicy.status"]`, it will set the following HCL object to the computed property output.
+
+                      ```text
+                      {
+                      properties = {
+                      loginServer = "registry1.azurecr.io"
+                      policies = {
+                      quarantinePolicy = {
+                      status = "disabled"
+                      }
+                      }
+                      }
+                      }
+                      ```
+
+                      - **Map**: A map where the key is the name for the result and the value is a JMESPath query string to filter the response. Here's an example. If it sets to `{"login_server": "properties.loginServer", "quarantine_status": "properties.policies.quarantinePolicy.status"}`, it will set the following HCL object to the computed property output.
+
+                      ```text
+                      {
+                      "login_server" = "registry1.azurecr.io"
+                      "quarantine_status" = "disabled"
+                      }
+                      ```
+
+                      To learn more about JMESPath, visit [JMESPath](https://jmespath.org/).
+                    x-kubernetes-preserve-unknown-fields: true
                   type:
                     description: |-
                       It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
@@ -375,7 +615,7 @@ spec:
         - spec
         type: object
     served: true
-    storage: false
+    storage: true
     subresources:
       status: {}
   - additionalPrinterColumns:
@@ -1071,6 +1311,6 @@ spec:
         - spec
         type: object
     served: true
-    storage: true
+    storage: false
     subresources:
       status: {}

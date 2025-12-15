@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.18.0
+    controller-gen.kubebuilder.io/version: v0.19.0
   name: updateresources.resources.azapi.upbound.io
 spec:
   group: resources.azapi.upbound.io
@@ -107,6 +107,23 @@ spec:
                       It supports different kinds of deployment scope for top level
                       resources:'
                     type: string
+                  readHeaders:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A mapping of headers to be sent with the read request.
+                      A mapping of headers to be sent with the read request.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  readQueryParameters:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: |-
+                      (Map of List of String) A mapping of query parameters to be sent with the read request.
+                      A mapping of query parameters to be sent with the read request.
+                    type: object
                   resourceId:
                     description: The ID of an existing azure source. Changing this
                       forces a new azure resource to be created.
@@ -119,11 +136,73 @@ spec:
                     items:
                       type: string
                     type: array
+                  retry:
+                    description: '(Attributes) The retry object supports the following
+                      attributes: (see below for nested schema)'
+                    properties:
+                      errorMessageRegex:
+                        description: |-
+                          (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+                          A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+                        items:
+                          type: string
+                        type: array
+                      intervalSeconds:
+                        description: |-
+                          (Number) The base number of seconds to wait between retries. Default is 10.
+                          The base number of seconds to wait between retries. Default is `10`.
+                        type: number
+                      maxIntervalSeconds:
+                        description: |-
+                          (Number) The maximum number of seconds to wait between retries. Default is 180.
+                          The maximum number of seconds to wait between retries. Default is `180`.
+                        type: number
+                      multiplier:
+                        description: |-
+                          (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+                          The multiplier to apply to the interval between retries. Default is `1.5`.
+                        type: number
+                      randomizationFactor:
+                        description: |-
+                          RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+                          The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+                        type: number
+                    type: object
+                  sensitiveBody:
+                    description: |-
+                      only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+                      A dynamic attribute that contains the write-only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+                    x-kubernetes-preserve-unknown-fields: true
+                  sensitiveBodyVersion:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A map where the key is the path to the property in sensitive_body and the value is the version of the property. The key is a string in the format of path.to.property[index].subproperty, where index is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+                      A map where the key is the path to the property in `sensitive_body` and the value is the version of the property. The key is a string in the format of `path.to.property[index].subproperty`, where `index` is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+                    type: object
+                    x-kubernetes-map-type: granular
                   type:
                     description: |-
                       It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
                       <api-version> is version of the API used to manage this azure resource.
                     type: string
+                  updateHeaders:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A mapping of headers to be sent with the update request.
+                      A mapping of headers to be sent with the update request.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  updateQueryParameters:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: |-
+                      (Map of List of String) A mapping of query parameters to be sent with the update request.
+                      A mapping of query parameters to be sent with the update request.
+                    type: object
                 type: object
               initProvider:
                 description: |-
@@ -172,6 +251,23 @@ spec:
                       It supports different kinds of deployment scope for top level
                       resources:'
                     type: string
+                  readHeaders:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A mapping of headers to be sent with the read request.
+                      A mapping of headers to be sent with the read request.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  readQueryParameters:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: |-
+                      (Map of List of String) A mapping of query parameters to be sent with the read request.
+                      A mapping of query parameters to be sent with the read request.
+                    type: object
                   resourceId:
                     description: The ID of an existing azure source. Changing this
                       forces a new azure resource to be created.
@@ -184,11 +280,73 @@ spec:
                     items:
                       type: string
                     type: array
+                  retry:
+                    description: '(Attributes) The retry object supports the following
+                      attributes: (see below for nested schema)'
+                    properties:
+                      errorMessageRegex:
+                        description: |-
+                          (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+                          A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+                        items:
+                          type: string
+                        type: array
+                      intervalSeconds:
+                        description: |-
+                          (Number) The base number of seconds to wait between retries. Default is 10.
+                          The base number of seconds to wait between retries. Default is `10`.
+                        type: number
+                      maxIntervalSeconds:
+                        description: |-
+                          (Number) The maximum number of seconds to wait between retries. Default is 180.
+                          The maximum number of seconds to wait between retries. Default is `180`.
+                        type: number
+                      multiplier:
+                        description: |-
+                          (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+                          The multiplier to apply to the interval between retries. Default is `1.5`.
+                        type: number
+                      randomizationFactor:
+                        description: |-
+                          RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+                          The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+                        type: number
+                    type: object
+                  sensitiveBody:
+                    description: |-
+                      only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+                      A dynamic attribute that contains the write-only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+                    x-kubernetes-preserve-unknown-fields: true
+                  sensitiveBodyVersion:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A map where the key is the path to the property in sensitive_body and the value is the version of the property. The key is a string in the format of path.to.property[index].subproperty, where index is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+                      A map where the key is the path to the property in `sensitive_body` and the value is the version of the property. The key is a string in the format of `path.to.property[index].subproperty`, where `index` is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+                    type: object
+                    x-kubernetes-map-type: granular
                   type:
                     description: |-
                       It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
                       <api-version> is version of the API used to manage this azure resource.
                     type: string
+                  updateHeaders:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A mapping of headers to be sent with the update request.
+                      A mapping of headers to be sent with the update request.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  updateQueryParameters:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: |-
+                      (Map of List of String) A mapping of query parameters to be sent with the update request.
+                      A mapping of query parameters to be sent with the update request.
+                    type: object
                 type: object
               managementPolicies:
                 default:
@@ -328,6 +486,23 @@ spec:
                       It supports different kinds of deployment scope for top level
                       resources:'
                     type: string
+                  readHeaders:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A mapping of headers to be sent with the read request.
+                      A mapping of headers to be sent with the read request.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  readQueryParameters:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: |-
+                      (Map of List of String) A mapping of query parameters to be sent with the read request.
+                      A mapping of query parameters to be sent with the read request.
+                    type: object
                   resourceId:
                     description: The ID of an existing azure source. Changing this
                       forces a new azure resource to be created.
@@ -340,11 +515,73 @@ spec:
                     items:
                       type: string
                     type: array
+                  retry:
+                    description: '(Attributes) The retry object supports the following
+                      attributes: (see below for nested schema)'
+                    properties:
+                      errorMessageRegex:
+                        description: |-
+                          (List of String) A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+                          A list of regular expressions to match against error messages. If any of the regular expressions match, the request will be retried.
+                        items:
+                          type: string
+                        type: array
+                      intervalSeconds:
+                        description: |-
+                          (Number) The base number of seconds to wait between retries. Default is 10.
+                          The base number of seconds to wait between retries. Default is `10`.
+                        type: number
+                      maxIntervalSeconds:
+                        description: |-
+                          (Number) The maximum number of seconds to wait between retries. Default is 180.
+                          The maximum number of seconds to wait between retries. Default is `180`.
+                        type: number
+                      multiplier:
+                        description: |-
+                          (Number, Deprecated) The multiplier to apply to the interval between retries. Default is 1.5.
+                          The multiplier to apply to the interval between retries. Default is `1.5`.
+                        type: number
+                      randomizationFactor:
+                        description: |-
+                          RandomizationFactor, 1 + RandomizationFactor]). Therefore set to zero 0.0 for no randomization. Default is 0.5.
+                          The randomization factor to apply to the interval between retries. The formula for the randomized interval is: `RetryInterval * (random value in range [1 - RandomizationFactor, 1 + RandomizationFactor])`. Therefore set to zero `0.0` for no randomization. Default is `0.5`.
+                        type: number
+                    type: object
+                  sensitiveBody:
+                    description: |-
+                      only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+                      A dynamic attribute that contains the write-only properties of the request body. This will be merge-patched to the body to construct the actual request body.
+                    x-kubernetes-preserve-unknown-fields: true
+                  sensitiveBodyVersion:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A map where the key is the path to the property in sensitive_body and the value is the version of the property. The key is a string in the format of path.to.property[index].subproperty, where index is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+                      A map where the key is the path to the property in `sensitive_body` and the value is the version of the property. The key is a string in the format of `path.to.property[index].subproperty`, where `index` is the index of the item in an array. When the version is changed, the property will be included in the request body, otherwise it will be omitted from the request body.
+                    type: object
+                    x-kubernetes-map-type: granular
                   type:
                     description: |-
                       It is in a format like <resource-type>@<api-version>. <resource-type> is the Azure resource type, for example, Microsoft.Storage/storageAccounts.
                       <api-version> is version of the API used to manage this azure resource.
                     type: string
+                  updateHeaders:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A mapping of headers to be sent with the update request.
+                      A mapping of headers to be sent with the update request.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  updateQueryParameters:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    description: |-
+                      (Map of List of String) A mapping of query parameters to be sent with the update request.
+                      A mapping of query parameters to be sent with the update request.
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.
@@ -404,7 +641,7 @@ spec:
         - spec
         type: object
     served: true
-    storage: false
+    storage: true
     subresources:
       status: {}
   - additionalPrinterColumns:
@@ -1140,6 +1377,6 @@ spec:
         - spec
         type: object
     served: true
-    storage: true
+    storage: false
     subresources:
       status: {}
